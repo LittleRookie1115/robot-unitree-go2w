@@ -236,8 +236,8 @@ class NativeRuntimeTransport(RosTransport):
         check_live_prerequisites(settings, environment)
         build = root / "rbnx-build/native"
         sdk = build / "chassis-sdk/install/bin/go2_sport_daemon"
-        adapter = (build / "chassis-ros/install/lib/go2w_native_chassis_adapter/"
-                   "go2w_native_chassis_adapter_node")
+        adapter = (build / "chassis-ros/install/lib/go2_native_chassis_adapter/"
+                   "go2_native_chassis_adapter_node")
         if not all(path.is_file() and os.access(path, os.X_OK) for path in (sdk, adapter)):
             raise RuntimeError("Build the native chassis backend with native/build-motion.sh first")
         runtime = build / "primitive-chassis"

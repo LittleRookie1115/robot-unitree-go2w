@@ -78,9 +78,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--hardware-only", action="store_true")
     args = parser.parse_args()
-    probe = ROOT / "rbnx-build/native/chassis-ros/install/lib/go2w_native_chassis_adapter/go2w_native_state_probe"
+    probe = ROOT / "rbnx-build/native/chassis-ros/install/lib/go2_native_chassis_adapter/go2_native_state_probe"
     if not probe.is_file():
-        probe = ROOT / "rbnx-build/native/chassis-ros/build/go2w_native_chassis_adapter/go2w_native_state_probe"
+        probe = ROOT / "rbnx-build/native/chassis-ros/build/go2_native_chassis_adapter/go2_native_state_probe"
     if not probe.is_file():
         raise SystemExit("Build the read-only state probe with bash native/build-motion.sh first")
     result = subprocess.run(

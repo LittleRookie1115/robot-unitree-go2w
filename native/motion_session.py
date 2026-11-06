@@ -85,7 +85,7 @@ def main():
             "GO2_ALLOWED_MODES", "GO2_STATE_TIME_BASIS", "GO2_ROBOT_VARIANT")]
         start("adapter", [
             "bash", str(ROOT / "native/ros-exec.sh"), "env", *gates,
-            str(BUILD / "chassis-ros/install/lib/go2w_native_chassis_adapter/go2w_native_chassis_adapter_node"),
+            str(BUILD / "chassis-ros/install/lib/go2_native_chassis_adapter/go2_native_chassis_adapter_node"),
             "--ros-args", "-p", "allow_motion:=true",
             "-p", "allowed_modes:=" + json.dumps(config["allowed_modes"]),
             "-p", "sdk_socket:=" + str(socket),

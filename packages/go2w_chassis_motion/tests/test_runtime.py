@@ -16,7 +16,7 @@ class RuntimeOwnershipTest(unittest.TestCase):
             runtime.mkdir(parents=True)
             for relative in (
                 "chassis-sdk/install/bin/go2_sport_daemon",
-                "chassis-ros/install/lib/go2w_native_chassis_adapter/go2w_native_chassis_adapter_node",
+                "chassis-ros/install/lib/go2_native_chassis_adapter/go2_native_chassis_adapter_node",
             ):
                 artifact = root / "rbnx-build/native" / relative
                 artifact.parent.mkdir(parents=True, exist_ok=True)

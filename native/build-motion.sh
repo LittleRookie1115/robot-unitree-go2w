@@ -14,7 +14,7 @@ set -u
 /usr/bin/colcon --log-base "$GO2_NATIVE_BUILD/chassis-ros/log" build \
   --base-paths \
     "$GO2_NATIVE_ROOT/packages/go2_chassis/ros2_ws/src/go2_chassis_adapter" \
-    "$GO2_NATIVE_ROOT/packages/go2_chassis/ros2_ws/src/go2w_native_chassis_adapter" \
+    "$GO2_NATIVE_ROOT/packages/go2_chassis/ros2_ws/src/go2_native_chassis_adapter" \
   --build-base "$GO2_NATIVE_BUILD/chassis-ros/build" \
   --install-base "$GO2_NATIVE_BUILD/chassis-ros/install" \
   --merge-install --cmake-args -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release \
