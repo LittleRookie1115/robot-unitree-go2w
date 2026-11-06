@@ -16,14 +16,14 @@ import atlas_pb2_grpc
 
 ROOT = Path(__file__).resolve().parent.parent
 ATLAS = "127.0.0.1:50051"
-PROVIDER = "go2_chassis_motion"
+PROVIDER = "go2w_chassis_motion"
 
 
 async def main():
     before = motion_status(ATLAS)
     assert not before["motion_enabled"] and before["backend_owner"] is None, before
     manifest = yaml.safe_load(
-        (ROOT / "packages/go2_chassis_motion/package_manifest.yaml").read_text())
+        (ROOT / "packages/go2w_chassis_motion/package_manifest.yaml").read_text())
     ids = {entry["name"] for entry in manifest["capabilities"]}
     grpc_only = {"robonix/primitive/chassis/arm"}
     expected_tools = ids - grpc_only

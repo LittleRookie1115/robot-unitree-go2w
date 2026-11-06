@@ -7,7 +7,7 @@ import sys
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "packages/go2_chassis_motion/rbnx-build/codegen/proto_gen"))
+sys.path.insert(0, str(ROOT / "packages/go2w_chassis_motion/rbnx-build/codegen/proto_gen"))
 
 import grpc
 import atlas_pb2
@@ -68,7 +68,7 @@ def discover(atlas, atlas_endpoint, bridge_query, include_preview=False):
                     channel_id=binding.channel_id), timeout=3)
     if reverse_port is None:
         raise RuntimeError("The active audio bridge did not declare bridge_info")
-    if include_preview or "go2_native" in active:
+    if include_preview or "go2w_native" in active:
         ports.add(18092)
     return {
         "atlas_port": atlas_port, "ports": sorted(ports),

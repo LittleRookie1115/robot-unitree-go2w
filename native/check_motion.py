@@ -12,8 +12,8 @@ import sys
 import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "packages/go2_chassis_motion"))
-from go2_chassis_motion.transport import check_live_prerequisites, check_native_network
+sys.path.insert(0, str(ROOT / "packages/go2w_chassis_motion"))
+from go2w_chassis_motion.transport import check_live_prerequisites, check_native_network
 
 
 def audit_samples(records, basis="payload"):
@@ -78,9 +78,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--hardware-only", action="store_true")
     args = parser.parse_args()
-    probe = ROOT / "rbnx-build/native/chassis-ros/install/lib/go2_native_chassis_adapter/go2_native_state_probe"
+    probe = ROOT / "rbnx-build/native/chassis-ros/install/lib/go2w_native_chassis_adapter/go2w_native_state_probe"
     if not probe.is_file():
-        probe = ROOT / "rbnx-build/native/chassis-ros/build/go2_native_chassis_adapter/go2_native_state_probe"
+        probe = ROOT / "rbnx-build/native/chassis-ros/build/go2w_native_chassis_adapter/go2w_native_state_probe"
     if not probe.is_file():
         raise SystemExit("Build the read-only state probe with bash native/build-motion.sh first")
     result = subprocess.run(
@@ -89,7 +89,7 @@ def main():
     records = [json.loads(line) for line in result.stdout.splitlines() if line.startswith("{")]
     manifest = yaml.safe_load((ROOT / "native/robonix_manifest.yaml").read_text())
     config = dict(next(item["config"] for item in manifest["primitive"]
-                       if item["name"] == "go2_chassis_motion"))
+                       if item["name"] == "go2w_chassis_motion"))
     basis = config.get("state_time_basis", "payload")
     sport, blockers = audit_samples(records, basis)
     interface = config.get("network_interface", "eth10")
@@ -115,9 +115,9 @@ def main():
         check_live_prerequisites(config, gate_inputs)
     except Exception as error:
         blockers.insert(0, str(error))
-    identity_probe = ROOT / "rbnx-build/native/chassis-sdk/install/bin/go2_native_identity_probe"
+    identity_probe = ROOT / "rbnx-build/native/chassis-sdk/install/bin/go2w_native_identity_probe"
     if not identity_probe.is_file():
-        identity_probe = ROOT / "rbnx-build/native/chassis-sdk/build/go2_native_identity_probe"
+        identity_probe = ROOT / "rbnx-build/native/chassis-sdk/build/go2w_native_identity_probe"
     identity = {}
     if identity_probe.is_file():
         try:

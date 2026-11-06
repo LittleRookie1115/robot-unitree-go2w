@@ -21,7 +21,7 @@ declared as robot hardware because this deployment has no corresponding onboard 
 provider.
 The native manifest now also includes the official `audio_client_bridge` in
 reverse mode and the official Speech service with local CPU ASR/TTS backends
-from `packages/go2_native_speech`. These use the laptop's microphone and
+from `packages/go2w_native_speech`. These use the laptop's microphone and
 speakers, without adding a fictitious onboard audio component. The bridge
 listens only on loopback port 60002; `native/connect_laptop.py` discovers the
 gRPC ports and tunnels them with the audio connection over SSH. See the
@@ -41,11 +41,11 @@ The default sensor deployment keeps motion disabled. There is no Sport daemon, p
 publisher, chassis command subscription, arm service, mapping or navigation
 process in this profile. Build scripts never run Unitree motion examples.
 
-The separately registered `go2_chassis_motion` primitive provides gRPC Move,
+The separately registered `go2w_chassis_motion` primitive provides gRPC Move,
 Stop, motion-status and explicit StandUp/StandDown interfaces with
 `allow_motion: false`. Its default
 startup creates no control ROS process or SDK client. See the
-[motion package](../packages/go2_chassis_motion/README.md) for bounded command
+[motion package](../packages/go2w_chassis_motion/README.md) for bounded command
 semantics, offline tests and the supervised real-runtime prerequisites.
 
 Before a supervised physical trial, run `bash native/check-motion.sh`.
@@ -269,7 +269,7 @@ The native camera alone owns its namespaced camera outputs.
   cloud, source freshness, battery and the observed odometry defect.
 - JSON metadata: `http://127.0.0.1:18092/status`.
 - Logs: `native/rbnx-boot/logs/` and
-  `packages/go2_native/rbnx-build/data/`.
+  `packages/go2w_native/rbnx-build/data/`.
 
 For an already running robot-local Client, another computer may forward the
 two UI ports through the existing SSH connection:

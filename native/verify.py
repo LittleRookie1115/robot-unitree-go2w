@@ -38,9 +38,9 @@ for key in ("lidar", "imu", "camera", "lowstate"):
 assert state["sources"]["odom"]["freshness"] == "invalid_orientation"
 system = read("http://127.0.0.1:7860/api/system")
 providers = {entry["id"]: entry["state"] for entry in system["providers"]}
-assert providers.get("go2_native") == "ACTIVE", providers
+assert providers.get("go2w_native") == "ACTIVE", providers
 assert all(value == "ACTIVE" for value in providers.values()), providers
-native = next(entry for entry in system["providers"] if entry["id"] == "go2_native")
+native = next(entry for entry in system["providers"] if entry["id"] == "go2w_native")
 capabilities = [cap["contractId"] for cap in native["capabilities"]]
 assert "robonix/primitive/chassis/odom" not in capabilities
 assert not any("twist" in name or "/move" in name for name in capabilities)

@@ -8,7 +8,7 @@ import sys
 import contextlib
 
 root = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(root / "packages/go2_chassis_motion/rbnx-build/codegen/proto_gen"))
+sys.path.insert(0, str(root / "packages/go2w_chassis_motion/rbnx-build/codegen/proto_gen"))
 import grpc
 import atlas_pb2
 import atlas_pb2_grpc
@@ -23,10 +23,10 @@ def connected(atlas_endpoint, contract_id):
         atlas = atlas_pb2_grpc.AtlasStub(channel)
         result = atlas.Query(atlas_pb2.QueryRequest(
             contract_id=contract_id, transport=atlas_pb2.TRANSPORT_GRPC), timeout=3)
-        providers = [p for p in result.providers if p.id == "go2_chassis_motion"
+        providers = [p for p in result.providers if p.id == "go2w_chassis_motion"
                      and p.state == atlas_pb2.STATE_ACTIVE]
         if len(providers) != 1:
-            raise RuntimeError("An active go2_chassis_motion provider was not found")
+            raise RuntimeError("An active go2w_chassis_motion provider was not found")
         binding = atlas.ConnectCapability(atlas_pb2.ConnectCapabilityRequest(
             consumer_id="go2-local-chassis-cli", provider_id=providers[0].id,
             contract_id=contract_id, transport=atlas_pb2.TRANSPORT_GRPC), timeout=3)

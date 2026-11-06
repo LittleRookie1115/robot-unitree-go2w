@@ -10,8 +10,8 @@ import sys
 import time
 
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "packages/go2_chassis_motion"))
-from go2_chassis_motion.state_guard import NativeWitness
+sys.path.insert(0, str(ROOT / "packages/go2w_chassis_motion"))
+from go2w_chassis_motion.state_guard import NativeWitness
 
 import rclpy
 from diagnostic_msgs.msg import DiagnosticArray

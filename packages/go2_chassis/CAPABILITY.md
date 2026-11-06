@@ -5,7 +5,7 @@ description: Fail-closed Unitree Go2 chassis topics for guarded Nav2 control.
 # Unitree Go2 chassis capability
 
 This file describes the inherited workstation/Nav2 contracts. The local native
-adapter and [native RPC package](../go2_chassis_motion/README.md) use the separate
+adapter and [native RPC package](../go2w_chassis_motion/README.md) use the separate
 `native-go2-manual-v1` profile, including bounded reverse/lateral movement and
 explicit, supervised StandUp/StandDown. Neither profile arms on startup.
 

@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "go2-native-speech"
+version = "0.1.0"
+description = "CPU sherpa-onnx custom backends for the official Robonix Speech service."
+requires-python = ">=3.11"
+dependencies = ["sherpa-onnx>=1.13.2,<1.14", "numpy>=1.24,<2", "scipy>=1.10"]
+
+[tool.setuptools.packages.find]
+include = ["go2w_native_speech*"]

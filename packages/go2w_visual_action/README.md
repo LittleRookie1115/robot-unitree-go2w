@@ -1,6 +1,6 @@
 # Go2-W 画面风险判断服务
 
-`go2w_visual_action` 通过 Robonix Client 提供 `evaluate`、`run_step`、`status` 和 `cancel`。服务经 `go2_native` 的 `camera/snapshot` MCP 能力读取 RGB JPEG 图像，使用 Mini-JEV 的三项概率进行判断。
+`go2w_visual_action` 通过 Robonix Client 提供 `evaluate`、`run_step`、`status` 和 `cancel`。服务经 `go2w_native` 的 `camera/snapshot` MCP 能力读取 RGB JPEG 图像，使用 Mini-JEV 的三项概率进行判断。
 
 `evaluate` 获取一帧相机图像，向 Mini-JEV 请求 `person`、`prohibition` 和 `obstacle` 概率，不调用运动接口。三个概率写入响应及 `result_json`。`run_step` 持续获取图像并判断，直到 `cancel`；每轮最多请求一次有界前进，动作结束后重新获取图像。`status` 返回最新结果，`cancel` 取消任务；存在前进请求时会调用底盘 `StopMove`。
 

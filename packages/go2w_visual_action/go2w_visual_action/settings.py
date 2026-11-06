@@ -7,8 +7,8 @@ class Settings(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     model_url: str = Field(min_length=1)
-    camera_provider_id: str = "go2_native"
-    chassis_provider_id: str = "go2_chassis_motion"
+    camera_provider_id: str = "go2w_native"
+    chassis_provider_id: str = "go2w_chassis_motion"
     camera_frame_id: str = "front_camera"
     motion_enabled: bool = False
     max_sensor_age_s: float = Field(default=0.5, gt=0.0, le=1.0)

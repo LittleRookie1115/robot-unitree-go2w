@@ -1,0 +1,9 @@
+# Merge this config into the main deployment's speech service entry.
+# This file contains no credentials and does not enable handsfree operation.
+speech_backend: custom
+speech_asr_backend_class: go2w_native_speech.backends:SenseVoiceASRBackend
+speech_asr_stream_backend_class: go2w_native_speech.backends:SenseVoiceASRBackend
+speech_tts_backend_class: go2w_native_speech.backends:VitsTTSBackend
+tts_voice: "4"
+wake_word_model_dir: rbnx-build/native/speech/models/kws
+wake_words: ["罗伯特"]

@@ -104,7 +104,7 @@ def main():
     with opener.open("http://127.0.0.1:7860/api/system", timeout=5) as response:
         system = json.load(response)
     providers = {item["id"]: item["state"] for item in system["providers"]}
-    assert providers.get("go2_chassis_motion") == "ACTIVE", providers
+    assert providers.get("go2w_chassis_motion") == "ACTIVE", providers
     final_status = require_enabled()
     evidence = verify_dispatch_interval(baseline, final_status, session)
     report = {

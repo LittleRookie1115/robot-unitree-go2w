@@ -1,9 +1,9 @@
 # Go2 chassis adapter
 
-This native fork also provides the separate `go2_native_chassis_adapter` ROS
+This native fork also provides the separate `go2w_native_chassis_adapter` ROS
 package and the explicit `native-go2-manual-v1` SDK profile for bounded
 forward/reverse/lateral motion and operator-requested StandUp/StandDown.
-See [the native RPC package](../go2_chassis_motion/README.md).
+See [the native RPC package](../go2w_chassis_motion/README.md).
 The original adapter and commissioning/workstation profiles below keep their
 existing forward-only envelopes. Both adapters share the same checked
 same-UID IPC client and protocol. The native profile is disabled by default

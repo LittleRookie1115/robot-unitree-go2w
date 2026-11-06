@@ -6,8 +6,8 @@ source "$(dirname "${BASH_SOURCE[0]}")/env.sh"
 }
 mkdir -p "$GO2_NATIVE_BUILD"
 "$GO2_SDK_PYTHON" -c 'import robonix_api, grpc_tools.protoc'
-rbnx codegen -p "$GO2_NATIVE_ROOT/packages/go2_native" --mcp
-bash "$GO2_NATIVE_ROOT/packages/go2_chassis_motion/scripts/build.sh"
+rbnx codegen -p "$GO2_NATIVE_ROOT/packages/go2w_native" --mcp
+bash "$GO2_NATIVE_ROOT/packages/go2w_chassis_motion/scripts/build.sh"
 audio_bridge="$GO2_WORKSPACE/primitive-audio-client-bridge-rbnx"
 [[ -f "$audio_bridge/package_manifest.yaml" ]] || {
   echo "The official audio bridge source is missing: $audio_bridge" >&2

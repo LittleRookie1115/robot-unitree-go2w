@@ -1,0 +1,38 @@
+manifestVersion: 1
+package:
+  name: robonix.primitive.unitree.go2w.chassis_motion
+  version: 0.1.0
+  description: Bounded native Go2 chassis requests through the guarded ROS adapter.
+  license: Apache-2.0
+build: bash scripts/build.sh
+start: bash scripts/start.sh
+capabilities:
+  - name: robonix/primitive/chassis/enable
+    path: capabilities/enable.v1.toml
+  - name: robonix/primitive/chassis/disable
+    path: capabilities/disable.v1.toml
+  - name: robonix/primitive/chassis/arm
+    path: capabilities/arm.v1.toml
+  - name: robonix/primitive/chassis/move
+  - name: robonix/primitive/chassis/forward
+    path: capabilities/forward.v1.toml
+  - name: robonix/primitive/chassis/backward
+    path: capabilities/backward.v1.toml
+  - name: robonix/primitive/chassis/left
+    path: capabilities/left.v1.toml
+  - name: robonix/primitive/chassis/right
+    path: capabilities/right.v1.toml
+  - name: robonix/primitive/chassis/stop
+    path: capabilities/stop.v1.toml
+  - name: robonix/primitive/chassis/motion_status
+    path: capabilities/motion_status.v1.toml
+  - name: robonix/primitive/chassis/status
+    path: capabilities/status.v1.toml
+  - name: robonix/primitive/chassis/stand_up
+    path: capabilities/stand_up.v1.toml
+  - name: robonix/primitive/chassis/stand_down
+    path: capabilities/stand_down.v1.toml
+  - name: robonix/primitive/chassis/lie_down
+    path: capabilities/lie_down.v1.toml
+  - name: robonix/primitive/chassis/balance_stand
+    path: capabilities/balance_stand.v1.toml

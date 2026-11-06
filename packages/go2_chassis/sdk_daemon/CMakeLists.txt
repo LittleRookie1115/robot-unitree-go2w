@@ -24,9 +24,9 @@ target_include_directories(go2_sport_daemon PRIVATE
 )
 target_link_libraries(go2_sport_daemon PRIVATE unitree_sdk2)
 target_compile_options(go2_sport_daemon PRIVATE -Wall -Wextra -Wpedantic)
-add_executable(go2_native_identity_probe src/native_identity_probe.cpp)
-target_link_libraries(go2_native_identity_probe PRIVATE unitree_sdk2)
-target_compile_options(go2_native_identity_probe PRIVATE -Wall -Wextra -Wpedantic)
+add_executable(go2w_native_identity_probe src/native_identity_probe.cpp)
+target_link_libraries(go2w_native_identity_probe PRIVATE unitree_sdk2)
+target_compile_options(go2w_native_identity_probe PRIVATE -Wall -Wextra -Wpedantic)
 add_executable(go2_sdk_state_probe src/native_state_probe.cpp)
 target_include_directories(go2_sdk_state_probe PRIVATE include ../include)
 target_link_libraries(go2_sdk_state_probe PRIVATE unitree_sdk2)
@@ -37,8 +37,8 @@ target_compile_options(go2_sdk_state_probe PRIVATE -Wall -Wextra -Wpedantic)
 set_target_properties(go2_sport_daemon PROPERTIES
   INSTALL_RPATH "\$ORIGIN/../lib"
 )
-set_target_properties(go2_native_identity_probe PROPERTIES INSTALL_RPATH "\$ORIGIN/../lib")
-target_link_options(go2_native_identity_probe PRIVATE -Wl,--disable-new-dtags)
+set_target_properties(go2w_native_identity_probe PROPERTIES INSTALL_RPATH "\$ORIGIN/../lib")
+target_link_options(go2w_native_identity_probe PRIVATE -Wl,--disable-new-dtags)
 set_target_properties(go2_sdk_state_probe PROPERTIES INSTALL_RPATH "\$ORIGIN/../lib")
 target_link_options(go2_sdk_state_probe PRIVATE -Wl,--disable-new-dtags)
 # CMake emits DT_RUNPATH by default.  LD_LIBRARY_PATH has precedence over
@@ -48,7 +48,7 @@ target_link_options(go2_sdk_state_probe PRIVATE -Wl,--disable-new-dtags)
 # supplies a daemon-only LD_LIBRARY_PATH containing this same private folder.
 target_link_options(go2_sport_daemon PRIVATE -Wl,--disable-new-dtags)
 
-install(TARGETS go2_sport_daemon go2_native_identity_probe go2_sdk_state_probe RUNTIME DESTINATION bin)
+install(TARGETS go2_sport_daemon go2w_native_identity_probe go2_sdk_state_probe RUNTIME DESTINATION bin)
 set(UNITREE_DDS_LIBRARY_DIR
     "${UNITREE_SDK2_DIR}/thirdparty/lib/${CMAKE_SYSTEM_PROCESSOR}")
 foreach(UNITREE_DDS_LIBRARY

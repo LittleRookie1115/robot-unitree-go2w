@@ -23,9 +23,9 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "packages/go2_chassis_motion"))
+sys.path.insert(0, str(ROOT / "packages/go2w_chassis_motion"))
 
-from go2_chassis_motion.controller import (  # noqa: E402
+from go2w_chassis_motion.controller import (  # noqa: E402
     DEFAULT_LIMITS,
     HARD_LIMITS,
     LIMITS_PATH,

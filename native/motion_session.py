@@ -13,13 +13,13 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 BUILD = ROOT / "rbnx-build/native"
-sys.path.insert(0, str(ROOT / "packages/go2_chassis_motion"))
-from go2_chassis_motion.controller import load_limits
+sys.path.insert(0, str(ROOT / "packages/go2w_chassis_motion"))
+from go2w_chassis_motion.controller import load_limits
 
 
 def live_manifest():
     manifest = yaml.safe_load((ROOT / "native/robonix_manifest.yaml").read_text())
-    primitive = next(item for item in manifest["primitive"] if item["name"] == "go2_chassis_motion")
+    primitive = next(item for item in manifest["primitive"] if item["name"] == "go2w_chassis_motion")
     config = primitive["config"]
     if config.get("robot_variant") != "go2w":
         raise ValueError("the native session requires its configured Go2-W variant")
@@ -85,7 +85,7 @@ def main():
             "GO2_ALLOWED_MODES", "GO2_STATE_TIME_BASIS", "GO2_ROBOT_VARIANT")]
         start("adapter", [
             "bash", str(ROOT / "native/ros-exec.sh"), "env", *gates,
-            str(BUILD / "chassis-ros/install/lib/go2_native_chassis_adapter/go2_native_chassis_adapter_node"),
+            str(BUILD / "chassis-ros/install/lib/go2w_native_chassis_adapter/go2w_native_chassis_adapter_node"),
             "--ros-args", "-p", "allow_motion:=true",
             "-p", "allowed_modes:=" + json.dumps(config["allowed_modes"]),
             "-p", "sdk_socket:=" + str(socket),

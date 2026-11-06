@@ -51,13 +51,13 @@ parts = base["components"][0]["components"]
 # has no hardware audio provider or health stream for a robot audio component.
 parts[:] = [part for part in parts if part["id"] != "client_audio"]
 parts.append({"id": "battery", "type": "battery", "exports": []})
-base["exports"] = [{"provider_id": "go2_native", "capabilities": [
+base["exports"] = [{"provider_id": "go2w_native", "capabilities": [
     {"path": "robonix/primitive/health/stream", "description": "Live battery and sensor freshness."},
 ]}]
 motion_package = yaml.safe_load(
-    (root / "packages/go2_chassis_motion/package_manifest.yaml").read_text())
+    (root / "packages/go2w_chassis_motion/package_manifest.yaml").read_text())
 base["exports"].append({
-    "provider_id": "go2_chassis_motion",
+    "provider_id": "go2w_chassis_motion",
     "capabilities": [{"path": capability["name"]}
                      for capability in motion_package["capabilities"]],
 })
@@ -71,7 +71,7 @@ for part in parts:
         "battery": "robonix/primitive/health/stream",
     }.get(part["id"])
     if contract:
-        part["exports"] = [{"provider_id": "go2_native", "capabilities": [
+        part["exports"] = [{"provider_id": "go2w_native", "capabilities": [
             {"path": contract, "description": "Native Foxy measured sensor input."},
         ]}]
 for joint in wheel_joints:

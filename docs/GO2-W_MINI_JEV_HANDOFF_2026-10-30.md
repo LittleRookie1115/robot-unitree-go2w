@@ -8,13 +8,13 @@
 |---|---|
 | Orin | `unitree@192.168.123.18` |
 | LiDAR | 10-31 直接订阅 `/unitree/slam_lidar/points`，12 秒收到 240 帧；坐标系 `livox_frame`，已保存前三帧完整数据 |
-| RGB | 10-31 通过 `go2_native` 的 `camera/snapshot` MCP 能力读取 JPEG；坐标系 `front_camera`，1920×1080，最近三次图像年龄为 0.166～0.243 秒 |
-| Observer | Native Observer 随 `go2_native` 运行，提供 `127.0.0.1:18092/status` 和 `/cloud` 用于点云诊断 |
+| RGB | 10-31 通过 `go2w_native` 的 `camera/snapshot` MCP 能力读取 JPEG；坐标系 `front_camera`，1920×1080，最近三次图像年龄为 0.166～0.243 秒 |
+| Observer | Native Observer 随 `go2w_native` 运行，提供 `127.0.0.1:18092/status` 和 `/cloud` 用于点云诊断 |
 | Odom | 10-30 `/dog_odom` 状态为 `invalid_orientation`，四元数为 `[0, 0, 0, 0]`；不能作为有效姿态依据 |
 | JEV 服务 | Robonix、Mini-JEV 和 `go2w_visual_action` 已在 Orin 的 tmux 会话运行；`run_step` 持续进行 RGB 概率评估，风险出现后本次任务保持停止 |
 | Client | Orin 的 Client 在 `127.0.0.1:7860` 运行；电脑已建立 SSH 本地转发，`http://127.0.0.1:7860/api/defaults` 返回成功 |
 | 语音链路 | Atlas `speech` 为 `ACTIVE`，ASR、TTS 后端均已初始化；电脑音频设备服务运行中，Orin 状态为 `external=true`，健康检查通过 |
-| 安全配置 | `go2w_visual_action.motion_enabled=false`，`go2_chassis_motion.allow_motion=false`；视觉概率未提供障碍物距离或经过验证的碰撞保护 |
+| 安全配置 | `go2w_visual_action.motion_enabled=false`，`go2w_chassis_motion.allow_motion=false`；视觉概率未提供障碍物距离或经过验证的碰撞保护 |
 
 需要从电脑抽样统计 Observer 点云时，另开终端建立 LiDAR 状态端口转发，再运行统计脚本：
 
@@ -210,11 +210,11 @@ Orin 的 `native/ros_worker.py`、`native/lidar_guard.py`、`native/config.yaml`
 SENSOR_MSGS_PY_SOURCE=/home/unitree/robonix_ws/robonix-unitree-go2w/work/lidar-check/ros-deps/sensor_msgs_py bash /home/unitree/robonix_ws/robonix-unitree-go2w/native/install-ros-deps.sh
 ```
 
-Native Observer 随 `go2_native` 持续运行，提供点云状态和走廊统计用于独立诊断。完整外参和走廊覆盖尚未核验。此前 15 次 Observer 检查结果保存在 `robonix-unitree-go2w/work/lidar-check/orin-stage/verification-18092.json`。
+Native Observer 随 `go2w_native` 持续运行，提供点云状态和走廊统计用于独立诊断。完整外参和走廊覆盖尚未核验。此前 15 次 Observer 检查结果保存在 `robonix-unitree-go2w/work/lidar-check/orin-stage/verification-18092.json`。
 
 `packages/go2w_visual_action` 已同步至 Orin，使用 Python 3.11 独立环境安装依赖，并通过 Robonix `rbnx build` 正式构建，生成接口文件。模型服务当前在 tmux 会话 `go2w-jev` 运行，地址为 `127.0.0.1:8765`，健康接口报告模型已加载。模型主体及 LoRA 文件在电脑和 Orin 的 SHA256 一致；`MANIFEST.json` 保存交付包摘要，`verify_manifest.py` 在电脑列出五个差异文件，在 Orin 列出四个差异文件，均为运行代码或配置。
 
-服务通过 Atlas 的 `camera/snapshot` MCP 能力读取 RGB JPEG。`go2_native` 登记 `camera/rgb` 和 `lidar/lidar3d` ROS2 能力。服务构建期间已在 Orin 注册 Robonix 源码目录。
+服务通过 Atlas 的 `camera/snapshot` MCP 能力读取 RGB JPEG。`go2w_native` 登记 `camera/rgb` 和 `lidar/lidar3d` ROS2 能力。服务构建期间已在 Orin 注册 Robonix 源码目录。
 
 Robonix、`go2w_visual_action`、Mini-JEV 与 Client 当前分别在 tmux 会话 `go2w-robonix`、`go2w-jev`、`go2w-client` 中运行。电脑已建立 `127.0.0.1:7860` 到 Orin Client 的 SSH 转发，并通过该地址读取 `/api/defaults`。
 

@@ -50,7 +50,7 @@ def query_registration(action):
         result = atlas_pb2_grpc.AtlasStub(channel).Query(atlas_pb2.QueryRequest(
             contract_id=contract_id, transport=atlas_pb2.TRANSPORT_GRPC), timeout=3)
     providers = [item for item in result.providers
-                 if item.id == "go2_chassis_motion" and item.state == atlas_pb2.STATE_ACTIVE]
+                 if item.id == "go2w_chassis_motion" and item.state == atlas_pb2.STATE_ACTIVE]
     assert len(providers) == 1, f"Expected one active provider for {contract_id}"
     return {"contract_id": contract_id, "provider_id": providers[0].id,
             "generated_stub": stub_name, "verification": "atlas_query_and_stub_only"}
@@ -95,7 +95,7 @@ def main():
         if "ps -eo" in line or "verify_motion.py" in line:
             continue
         assert "/bin/go2_sport_daemon " not in line, "A Sport daemon is unexpectedly running"
-        assert "/go2_chassis_motion/ros_worker.py " not in line, "A motion ROS worker is running"
+        assert "/go2w_chassis_motion/ros_worker.py " not in line, "A motion ROS worker is running"
     report = {
         "checked_at": datetime.now().astimezone().isoformat(),
         "motion_enabled": False, "backend_owner": None,

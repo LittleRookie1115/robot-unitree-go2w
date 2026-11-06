@@ -35,7 +35,7 @@ def main():
     stop = threading.Event()
     rclpy.init()
     node = rclpy.create_node(
-        "go2_native_sensor_observer", enable_rosout=False, start_parameter_services=False,
+        "go2w_native_sensor_observer", enable_rosout=False, start_parameter_services=False,
     )
     started = time.monotonic()
     processed = {}

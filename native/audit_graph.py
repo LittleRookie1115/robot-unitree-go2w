@@ -7,15 +7,15 @@ import time
 import rclpy
 
 rclpy.init()
-node = rclpy.create_node("go2_native_endpoint_audit", enable_rosout=False,
+node = rclpy.create_node("go2w_native_endpoint_audit", enable_rosout=False,
                         start_parameter_services=False)
 deadline = time.monotonic() + 3
 while time.monotonic() < deadline:
     rclpy.spin_once(node, timeout_sec=0.1)
 report = {}
 for name, namespace in node.get_node_names_and_namespaces():
-    assert name != "go2_native_motion_bridge", "Default native deployment opened a motion ROS node"
-    if name not in ("go2_native_sensor_observer", "go2_camera_bridge"):
+    assert name != "go2w_native_motion_bridge", "Default native deployment opened a motion ROS node"
+    if name not in ("go2w_native_sensor_observer", "go2_camera_bridge"):
         continue
     publishers = node.get_publisher_names_and_types_by_node(name, namespace)
     subscriptions = node.get_subscriber_names_and_types_by_node(name, namespace)
@@ -30,7 +30,7 @@ for name, namespace in node.get_node_names_and_namespaces():
                    or "arm_motion" in topic for topic in endpoints), endpoints
 node.destroy_node()
 rclpy.shutdown()
-assert set(report) == {"go2_native_sensor_observer", "go2_camera_bridge"}, report
+assert set(report) == {"go2w_native_sensor_observer", "go2_camera_bridge"}, report
 destination = Path(__file__).resolve().parent.parent / "rbnx-build/native/ros-endpoints.json"
 destination.write_text(json.dumps(report, indent=2) + "\n")
 print(json.dumps(report, indent=2))

@@ -23,7 +23,7 @@ import std_srvs_pb2
 
 def load_chassis_services():
     """This package's generated stubs have no chassis calls; the chassis package's do."""
-    path = (Path(__file__).resolve().parents[2] / "go2_chassis_motion/rbnx-build/codegen"
+    path = (Path(__file__).resolve().parents[2] / "go2w_chassis_motion/rbnx-build/codegen"
             / "proto_gen/robonix_contracts_pb2_grpc.py")
     spec = importlib.util.spec_from_file_location("chassis_contracts_pb2_grpc", path)
     module = importlib.util.module_from_spec(spec)
