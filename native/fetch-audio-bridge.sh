@@ -16,10 +16,12 @@ if [[ -d "$dest/.git" ]]; then
 else
   rm -rf "$dest"
   mkdir -p "$dest"
-  git -C "$dest" init
+  # Git progress belongs on stderr. The only stdout is the directory path,
+  # which native/build.sh captures.
+  git -C "$dest" init -q
   git -C "$dest" remote add origin "$AUDIO_CLIENT_BRIDGE_URL"
-  git -C "$dest" fetch --depth 1 origin "$AUDIO_CLIENT_BRIDGE_COMMIT"
-  git -C "$dest" checkout --detach FETCH_HEAD
+  git -C "$dest" fetch -q --depth 1 origin "$AUDIO_CLIENT_BRIDGE_COMMIT"
+  git -C "$dest" -c advice.detachedHead=false checkout -q --detach FETCH_HEAD
 fi
 [[ -f "$dest/package_manifest.yaml" ]] || {
   echo "Pinned audio bridge is missing package_manifest.yaml: $dest" >&2

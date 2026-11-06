@@ -65,7 +65,9 @@ def parser():
                         help="笔记本音频 WebSocket 端口，诊断页面使用此端口加 1")
     result.add_argument("--atlas-port", type=port_number, default=15051,
                         help="笔记本本地 Atlas 转发端口，默认 15051")
-    result.add_argument("--remote-root", default=DEFAULT_ROOT)
+    result.add_argument("--remote-root", default=DEFAULT_ROOT,
+                        help="机器人上的仓库目录。把本脚本单独复制到笔记本后，"
+                             "必须传入机器人路径，不能使用笔记本上的脚本位置")
     result.add_argument("--remote-python",
                         default=os.environ.get("GO2W_REMOTE_PYTHON", REMOTE_PYTHON),
                         help="机器人上执行只读端口查询的 Python；也可用 GO2W_REMOTE_PYTHON 覆盖")

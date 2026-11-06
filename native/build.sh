@@ -20,7 +20,16 @@ mark_built "$GO2_NATIVE_ROOT/packages/go2w_chassis_motion"
 bash "$GO2_NATIVE_ROOT/packages/go2w_visual_action/scripts/build.sh"
 mark_built "$GO2_NATIVE_ROOT/packages/go2w_visual_action"
 audio_bridge="$(bash "$GO2_NATIVE_ROOT/native/fetch-audio-bridge.sh")"
-AUDIO_CLIENT_BRIDGE_PYTHON="$GO2_SDK_PYTHON" bash "$audio_bridge/scripts/build.sh"
+[[ -f "$audio_bridge/package_manifest.yaml" ]] || {
+  echo "Audio bridge fetch did not return its package directory." >&2
+  printf 'Captured output:\n%s\n' "$audio_bridge" >&2
+  exit 2
+}
+# The bridge reads RBNX_PACKAGE_ROOT as its own root. A nested rbnx build
+# otherwise leaves this set to whichever package triggered the deployment build.
+RBNX_PACKAGE_ROOT="$audio_bridge" \
+  AUDIO_CLIENT_BRIDGE_PYTHON="$GO2_SDK_PYTHON" \
+  bash "$audio_bridge/scripts/build.sh"
 mark_built "$audio_bridge"
 bash "$GO2_NATIVE_ROOT/native/build-voice.sh"
 mark_built "$GO2_NATIVE_ROOT/packages/go2w_native_speech"

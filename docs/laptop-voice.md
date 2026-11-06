@@ -107,6 +107,12 @@ scp -P 2222 unitree@ROBOT_IP:/home/unitree/robonix_ws/robonix-unitree-go2w/nativ
 
 这个脚本只依赖 Python 标准库，复制单文件即可。测试文件不用复制。
 
+单独复制后，脚本无法从自己的位置知道机器人仓库在哪。启动时必须传入机器人上的目录：
+
+```text
+--remote-root /home/unitree/robonix_ws/robonix-unitree-go2w
+```
+
 机器人上的查询解释器默认是 `/home/unitree/robonix_ws/.tools/rbnx-python/bin/python`。其他工作区用 `--remote-python` 或环境变量 `GO2W_REMOTE_PYTHON` 指定。
 
 ## 3. 启动连接
@@ -114,19 +120,19 @@ scp -P 2222 unitree@ROBOT_IP:/home/unitree/robonix_ws/robonix-unitree-go2w/nativ
 Linux / macOS 激活上面的虚拟环境后：
 
 ```bash
-python connect_laptop.py unitree@ROBOT_IP
+python connect_laptop.py unitree@ROBOT_IP --remote-root /home/unitree/robonix_ws/robonix-unitree-go2w
 ```
 
 Windows PowerShell：
 
 ```powershell
-.\.venv\Scripts\python.exe .\connect_laptop.py unitree@ROBOT_IP --client-command .\.venv\Scripts\robonix-client.exe
+.\.venv\Scripts\python.exe .\connect_laptop.py unitree@ROBOT_IP --remote-root /home/unitree/robonix_ws/robonix-unitree-go2w --client-command .\.venv\Scripts\robonix-client.exe
 ```
 
 使用已经安装好 Client 的 Windows Conda 环境时，保留同样的启动器用法：
 
 ```powershell
-python ".\connect_laptop.py" unitree@ROBOT_IP --client-command "$env:CONDA_PREFIX\Scripts\robonix-client.exe"
+python ".\connect_laptop.py" unitree@ROBOT_IP --remote-root /home/unitree/robonix_ws/robonix-unitree-go2w --client-command "$env:CONDA_PREFIX\Scripts\robonix-client.exe"
 ```
 
 如果旧转发占用本地音频端口，可加 `--audio-port 16000`；页面端口被占用时可加
@@ -211,7 +217,7 @@ http://127.0.0.1:7860/
 
 ```powershell
 scp unitree@ROBOT_IP:/home/unitree/robonix_ws/robonix-unitree-go2w/native/connect_laptop.py .
-python ".\connect_laptop.py" unitree@ROBOT_IP --client-port 7861 --audio-port 16000 --client-command "$env:CONDA_PREFIX\Scripts\robonix-client.exe"
+python ".\connect_laptop.py" unitree@ROBOT_IP --remote-root /home/unitree/robonix_ws/robonix-unitree-go2w --client-port 7861 --audio-port 16000 --client-command "$env:CONDA_PREFIX\Scripts\robonix-client.exe"
 ```
 
 打开 `http://127.0.0.1:7861/`。如果旧连接还占用了查询返回的其他转发端口，
