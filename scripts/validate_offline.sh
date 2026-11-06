@@ -99,6 +99,26 @@ PYTHONPATH="$DEPLOY_DIR/packages/go2_dashboard${PYTHONPATH:+:$PYTHONPATH}" \
   python3 -m unittest discover \
     -s "$DEPLOY_DIR/packages/go2_dashboard/tests" -p 'test_*.py'
 python3 -m unittest discover -s "$DEPLOY_DIR/tests" -p 'test_*.py'
+(
+  cd "$DEPLOY_DIR/packages/go2w_chassis_motion/tests"
+  PYTHONPATH="$DEPLOY_DIR/packages/go2w_chassis_motion${PYTHONPATH:+:$PYTHONPATH}" \
+    python3 -m unittest \
+      test_motion test_native_network test_native_state \
+      test_runtime test_worker test_preflight
+)
+PYTHONPATH="$DEPLOY_DIR/packages/go2w_visual_action${PYTHONPATH:+:$PYTHONPATH}" \
+  python3 -m unittest discover \
+    -s "$DEPLOY_DIR/packages/go2w_visual_action/tests" -p 'test_*.py'
+g++ -std=c++17 -Wall -Wextra -Wpedantic -Werror \
+  -I"$DEPLOY_DIR/packages/go2_chassis/include" \
+  "$DEPLOY_DIR/packages/go2_chassis/tests/native_state_clock_test.cpp" \
+  -o "$TEMP_DIR/native_state_clock_test"
+"$TEMP_DIR/native_state_clock_test"
+g++ -std=c++17 -Wall -Wextra -Wpedantic -Werror -pthread \
+  -I"$DEPLOY_DIR/packages/go2_chassis/include" \
+  "$DEPLOY_DIR/packages/go2_chassis/tests/native_profile_test.cpp" \
+  -o "$TEMP_DIR/native_profile_test"
+"$TEMP_DIR/native_profile_test"
 
 python3 -m unittest discover \
   -s "$DEPLOY_DIR/sim/onboarding/tests" -p 'test_*.py'

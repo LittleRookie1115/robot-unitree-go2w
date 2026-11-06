@@ -19,6 +19,13 @@ def read_json(path):
 
 
 def main():
+    lock = Path(__file__).resolve().parent / "deps.lock"
+    pinned = None
+    for line in lock.read_text(encoding="utf-8").splitlines():
+        if line.startswith("GO2W_MODEL_REVISION="):
+            pinned = line.split("=", 1)[1].strip()
+    if pinned != REVISION:
+        raise SystemExit("native/deps.lock Go2-W model revision does not match this fetcher")
     ROOT.mkdir(parents=True, exist_ok=True)
     files = []
     for directory in ("dae", "urdf"):

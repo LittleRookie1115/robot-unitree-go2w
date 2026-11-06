@@ -47,7 +47,7 @@ READ-ONLY interface reference: it shares go2::SportClient, but that does not
 validate this firmware's posture behavior or lateral locomotion. Never run
 the example, which can issue a posture on its first input. Do not advertise
 the old 12-leg-joint Go2 URDF as a validated Go2-W model. Native motion uses
-the separate `native-go2w-manual-v1` profile.
+the separate `native-go2w-manual-v2` profile. Limits are in `docs/SAFETY.md`.
 
 Native Go2-W status on 2026-10-16: read-only CheckMode confirmed `ai-w`;
 DDS/tick qualification, explicit zero-speed arm/StopMove, 15-second idle

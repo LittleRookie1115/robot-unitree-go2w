@@ -66,6 +66,9 @@ def parser():
     result.add_argument("--atlas-port", type=port_number, default=15051,
                         help="笔记本本地 Atlas 转发端口，默认 15051")
     result.add_argument("--remote-root", default=DEFAULT_ROOT)
+    result.add_argument("--remote-python",
+                        default=os.environ.get("GO2W_REMOTE_PYTHON", REMOTE_PYTHON),
+                        help="机器人上执行只读端口查询的 Python；也可用 GO2W_REMOTE_PYTHON 覆盖")
     result.add_argument("--client-command", default="robonix-client",
                         help="Client 可执行文件的路径，作为一个参数传入，不是 shell 命令")
     result.add_argument("--print-only", action="store_true",
@@ -116,7 +119,7 @@ def decode_discovery(payload):
 def query_robot(args, ssh_executable):
     helper = str(PurePosixPath(args.remote_root) / "native" / "voice_tunnel_info.py")
     command = ssh_base(args, ssh_executable) + [
-        "--", args.target, shlex.join([REMOTE_PYTHON, helper])]
+        "--", args.target, shlex.join([args.remote_python, helper])]
     try:
         completed = subprocess.run(
             command, stdout=subprocess.PIPE, text=True, encoding="utf-8",

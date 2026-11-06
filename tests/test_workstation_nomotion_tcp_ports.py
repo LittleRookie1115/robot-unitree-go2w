@@ -36,6 +36,11 @@ def proc_row(address: str, port: int, state: str, inode: int) -> str:
 
 class WorkstationNomotionTcpPortTests(unittest.TestCase):
     def setUp(self) -> None:
+        try:
+            from native_launch import skip_when_native_launch
+        except ImportError:
+            from tests.native_launch import skip_when_native_launch
+        skip_when_native_launch()
         self.manifest = yaml.safe_load(
             (ROOT / "robonix_manifest.yaml").read_text(encoding="utf-8")
         )

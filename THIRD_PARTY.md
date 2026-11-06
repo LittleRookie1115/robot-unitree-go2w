@@ -15,6 +15,16 @@ the applicable terms.
 | RapidJSON and its listed third-party components | Unitree SDK2 dependency | MIT and the notices in the upstream license file | `third_party/unitree_sdk2/licenses/Tencent/rapidjson/LICENSE` |
 | Unitree Go2 URDF/DAE assets | Robot model and TF geometry | BSD-3-Clause | `packages/go2_description/LICENSE.unitree` |
 | Optional Unitree Go2 MJCF/OBJ assets | Source-only MuJoCo onboarding download, not vendored | BSD-3-Clause | `unitreerobotics/unitree_mujoco@1eb6642e3f3fdfb7fb13a9794fd6a2dd93ea0e7d/LICENSE`; locked in `sim/onboarding/upstream.lock.json`, copied to generated bundle `vendor/LICENSE` |
+| Unitree Go2-W URDF/DAE | Native model fetched at build time, not committed | BSD-3-Clause | `unitreerobotics/unitree_ros` revision in `native/deps.lock`; fetched by `native/fetch_go2w_model.py` |
+| `sensor_msgs_py` | Foxy point-cloud helper for the native observer | Apache-2.0 | `ros2/common_interfaces` commit in `native/deps.lock`; installed by `native/fetch-sensor-msgs-py.sh` |
+| Audio client bridge | Fetched at build time into `rbnx-boot/cache` | MulanPSL-2.0 | `syswonder/primitive-audio-client-bridge-rbnx` commit in `native/deps.lock` |
+| sherpa-onnx SenseVoice, VITS and KWS weights | Speech models downloaded into ignored `rbnx-build/` | Upstream release terms; not this repository's Apache-2.0 grant | `k2-fsa/sherpa-onnx` assets named in `packages/go2w_native_speech/go2w_native_speech/models.py` |
+| Mini-JEV and its LoRA | Optional external vision model, not redistributed | Not included | Operator-provided service at `GO2W_JEV_MODEL_URL` |
+
+The root `catalog.license` value `Apache-2.0` covers this repository's
+integration code. It does not relicense the rows above. Mapping and navigation
+snapshots under `third_party/` keep the licenses in their own trees; the native
+launch manifest does not start them.
 
 Both SDK-daemon CMake install rules copy these SDK/runtime license texts into
 `share/licenses/unitree_sdk2/` beside the installed image. Do not distribute a

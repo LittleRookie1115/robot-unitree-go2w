@@ -225,11 +225,11 @@ ros2 pkg prefix rosidl_generator_dds_idl >/dev/null 2>&1 || {
 }
 
 [[ -f "$UNITREE_SDK2_DIR/CMakeLists.txt" ]] || {
-  echo "missing official unitree_sdk2 submodule; run: git submodule update --init --recursive" >&2
+  echo "missing vendored unitree_sdk2 snapshot; see third_party/PINS" >&2
   exit 1
 }
 [[ -f "$DEPLOY_DIR/third_party/unitree_ros2/cyclonedds_ws/src/unitree/unitree_go/package.xml" ]] || {
-  echo "missing official unitree_ros2 submodule; run: git submodule update --init --recursive" >&2
+  echo "missing vendored unitree_ros2 snapshot; see third_party/PINS" >&2
   exit 1
 }
 

@@ -20,6 +20,8 @@ from PIL import Image
 from robonix_api import ATLAS
 import std_srvs_pb2
 
+from .policy import confirmed_forward
+
 
 def load_chassis_services():
     """This package's generated stubs have no chassis calls; the chassis package's do."""
@@ -247,12 +249,11 @@ class Robot:
             try:
                 response = call.result()
                 result = json.loads(response.status.data)
-                # "not_observed": the burst reached the firmware and stopped, but this short,
-                # slow step did not reach the feedback threshold. "not_dispatched" still fails.
-                if (result.get("status") not in ("completed", "not_observed")
-                        or result.get("stop_acknowledged") is not True):
-                    raise RuntimeError("MOTION_NOT_CONFIRMED: forward result lacks completion or stop "
-                                       "evidence: " + response.status.data[:300])
+                # not_observed and not_dispatched are failed movement results. A confirmed
+                # StopMove does not show that the requested motion was observed.
+                if not confirmed_forward(result):
+                    raise RuntimeError("MOTION_NOT_CONFIRMED: forward result lacks observed completion "
+                                       "or stop evidence: " + response.status.data[:300])
                 self.last_execution.update(result)
                 return result
             finally:

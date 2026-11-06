@@ -115,18 +115,25 @@ shutdown, IPC failure or SDK error requests StopMove and latches a fault.
 
 ## Native manual motion and posture profile
 
-The operator's hardware is Go2-W. The `native-go2w-manual-v1` profile adds reverse and lateral
-commands without changing the older commissioning/workstation envelopes.
-Its fixed limits are ±0.10 m/s X, ±0.05 m/s Y and ±0.20 rad/s yaw, with one
-bounded movement request capped at 1 second. StandUp and StandDown are explicit,
-exclusive calls only, followed by a bounded heartbeat and confirmed StopMove.
-They are never startup, shutdown, health-check or real-hardware test actions.
-The native daemon accepts only those two named posture IDs in this profile.
+The onboard Go2-W profile is `native-go2w-manual-v2`. It does not change the
+workstation commissioning envelope in Gate 5. The root manifest keeps
+`allow_motion: false` until an operator enables a session. StandUp, StandDown
+and BalanceStand are explicit calls only. They are never startup, shutdown,
+health-check or real-hardware test actions.
+
+When `~/.config/robonix/motion_limits.json` is absent, the Python motion
+package uses forward and reverse 0.25 m/s, lateral 0.10 m/s, yaw 0.50 rad/s,
+a default duration of 0.50 s and a maximum duration of 2.0 s. A limits file
+may only tighten the hard ceilings. The Python ceilings are forward and
+reverse 1.0 m/s, lateral 0.5 m/s, yaw 1.0 rad/s and 3.0 s. The C++ profile
+ceilings are 1.0 m/s in X, 0.5 m/s in Y, 1.0 rad/s yaw and 5000 ms, with a
+4.8 s posture window. None of these ceilings is a completed physical
+acceptance result. Supervised tests stay inside the Python defaults unless a
+reviewed limits file sets a lower value.
 
 All default manifests keep motion disabled. The independent operator gates,
-Go2-W mode policy, qualified source progress, SDK ownership, explicit arm and watchdogs
-remain required. This profile is an implementation, not a declaration that
-the physical acceptance gates above have passed on this robot.
+Go2-W mode policy, qualified source progress, SDK ownership, explicit enable
+and watchdogs remain required.
 
 The native onboard network check uses the selected interface and controller
 address from `native/robonix_manifest.yaml`. It requires an up link and a

@@ -271,11 +271,14 @@ claim physical movement. Posture success follows the separate
 `action_finished` contract, without inventing a StopMove acknowledgement.
 RPC transport errors are printed as an error JSON and return exit code 2.
 
-The explicit `native-go2w-manual-v1` envelope supports forward/reverse at at most
-0.10 m/s, lateral movement in either direction at at most 0.05 m/s, yaw in either
-direction at at most 0.20 rad/s, and a maximum 1.0-second movement request. A zero
-`duration_sec` uses the 0.25-second default. Limits may be tightened, not
-widened. Vertical, roll and pitch velocity requests are rejected.
+The explicit `native-go2w-manual-v2` profile, when no limits file is present,
+accepts forward and reverse at 0.25 m/s, lateral movement at 0.10 m/s, yaw at
+0.50 rad/s, and a movement request of at most 2.0 seconds. A zero
+`duration_sec` uses the 0.50-second default. The Python hard ceilings are
+1.0 m/s forward and reverse, 0.5 m/s lateral, 1.0 rad/s yaw and 3.0 seconds.
+The C++ ceilings are 1.0 m/s X, 0.5 m/s Y, 1.0 rad/s yaw and 5000 ms. A limits
+file may tighten these, not widen them. See `docs/SAFETY.md`. Vertical, roll
+and pitch velocity requests are rejected.
 The older commissioning and workstation profiles keep their forward-only limits;
 only the separate native profile enables negative X and lateral SDK commands.
 Commands use body-frame planar velocity: positive X is forward and positive

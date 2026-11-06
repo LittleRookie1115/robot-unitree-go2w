@@ -1,61 +1,56 @@
 #!/usr/bin/env bash
-# Fail closed unless safety-critical service sources match their gitlink pins.
+# Fail closed unless vendored third-party snapshots match third_party/PINS.
+# The native deployment stores these sources as ordinary Git trees. A gitlink
+# would mean the pin file and the index no longer describe the same thing.
 
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+pins="$ROOT/third_party/PINS"
 
-verify_pin() {
-  local name="$1"
-  local rel="$2"
-  local expected_url="$3"
-  local path="$ROOT/$rel"
-  local entry mode pinned actual configured origin dirty
+[[ -f "$pins" ]] || {
+  echo "missing vendored source pins: third_party/PINS" >&2
+  exit 1
+}
+[[ ! -e "$ROOT/.gitmodules" ]] || {
+  echo "root .gitmodules conflicts with vendored third_party snapshots" >&2
+  exit 1
+}
 
-  [[ -d "$path" ]] || {
-    echo "missing pinned submodule: $rel; run git submodule update --init --recursive" >&2
+count=0
+while IFS=$'\t' read -r path url tree; do
+  [[ -z "${path:-}" || "$path" == \#* ]] && continue
+  [[ "$path" == third_party/* && "$url" == https://* && "$tree" =~ ^[0-9a-f]{40}$ ]] || {
+    echo "malformed source pin: $path" >&2
     exit 1
   }
-  entry="$(git -C "$ROOT" ls-files --stage -- "$rel")"
-  read -r mode pinned _ <<<"$entry"
-  [[ "$mode" == 160000 && "$pinned" =~ ^[0-9a-f]{40}$ ]] || {
-    echo "not a gitlink pin: $rel" >&2
+  entry="$(git -C "$ROOT" ls-tree HEAD -- "$path")"
+  [[ -n "$entry" ]] || {
+    echo "missing vendored source: $path" >&2
     exit 1
   }
-  actual="$(git -C "$path" rev-parse HEAD)"
-  [[ "$actual" == "$pinned" ]] || {
-    echo "submodule HEAD mismatch: $rel expected=$pinned actual=$actual" >&2
+  read -r mode kind object _ <<<"$entry"
+  [[ "$mode" == 040000 && "$kind" == tree && "$object" == "$tree" ]] || {
+    echo "vendored tree mismatch: $path expected=$tree actual=${object:-missing} mode=${mode:-missing} kind=${kind:-missing}" >&2
     exit 1
   }
-  configured="$(git -C "$ROOT" config -f .gitmodules --get "submodule.$name.url")"
-  origin="$(git -C "$path" remote get-url origin)"
-  [[ "$configured" == "$expected_url" && "$origin" == "$expected_url" ]] || {
-    echo "submodule URL mismatch: $rel expected=$expected_url configured=$configured origin=$origin" >&2
+  [[ -d "$ROOT/$path" ]] || {
+    echo "vendored source is not checked out: $path" >&2
     exit 1
   }
-  dirty="$(git -C "$path" status --porcelain --untracked-files=normal)"
+  dirty="$(git -C "$ROOT" status --porcelain -- "$path")"
   [[ -z "$dirty" ]] || {
-    echo "pinned submodule is dirty: $rel" >&2
+    echo "vendored source differs from its pinned tree: $path" >&2
     printf '%s\n' "$dirty" >&2
     exit 1
   }
-  printf '[source-pin] %s %s\n' "$rel" "$actual"
-}
+  printf '[source-pin] %s %s\n' "$path" "$object"
+  count=$((count + 1))
+done <"$pins"
 
-verify_pin \
-  third_party/service-map-rbnx \
-  third_party/service-map-rbnx \
-  https://github.com/syswonder/service-map-rbnx.git
-verify_pin \
-  third_party/service-navigation-rbnx \
-  third_party/service-navigation-rbnx \
-  https://github.com/syswonder/service-navigation-rbnx.git
-
-status="$(git -C "$ROOT" submodule status --recursive)"
-if grep -Eq '^[-+U]' <<<"$status"; then
-  echo "one or more recursive submodules are uninitialized or do not match their gitlink" >&2
-  printf '%s\n' "$status" >&2
+[[ "$count" -eq 4 ]] || {
+  echo "expected 4 vendored source pins, found $count" >&2
   exit 1
-fi
+}
 
 echo '[source-pin] PASS'

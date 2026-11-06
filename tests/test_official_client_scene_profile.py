@@ -8,6 +8,13 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class OfficialClientSceneProfileTest(unittest.TestCase):
+    def setUp(self) -> None:
+        try:
+            from native_launch import skip_when_native_launch
+        except ImportError:
+            from tests.native_launch import skip_when_native_launch
+        skip_when_native_launch()
+
     def test_scene_ui_is_enabled_on_loopback_port_50107(self) -> None:
         manifest = yaml.safe_load(
             (ROOT / "robonix_manifest.yaml").read_text(encoding="utf-8")

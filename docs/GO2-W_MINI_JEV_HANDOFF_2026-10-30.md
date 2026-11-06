@@ -1,5 +1,9 @@
 # GO2-W Mini-JEV 真机演示交接
 
+当前视觉任务的风险恢复和 `not_observed` 语义以
+`packages/go2w_visual_action/README.md` 为准。下面是 2026-10-30 的交接记录，
+其中“风险后一直停止”描述的是当时核验的版本。
+
 更新日期：2026-10-31（Asia/Shanghai）。本文记录 GO2-W 前方风险评估演示的检查结果、现场传感器读数和后续工作入口。各项数据以注明的检查日期为准。
 
 ## 现场与运行状态
@@ -207,7 +211,7 @@ Orin 当前导航配置中的 `base_footprint` 矩形使用 X 范围 `[-0.34,0.3
 Orin 的 `native/ros_worker.py`、`native/lidar_guard.py`、`native/config.yaml` 和 `native/ros-python.sh` 已配置 Observer 所需的点云统计与依赖路径。ROS Foxy 官方 `sensor_msgs_py` 2.0.5 安装在 `rbnx-build/native/ros-python-deps`，源码来自 `ros2/common_interfaces` 的 `foxy` 分支，提交为 `6356bc82f3a034f5d2c61c6760df0007a6cadfb0`。重新安装时，在 Orin 执行：
 
 ```bash
-SENSOR_MSGS_PY_SOURCE=/home/unitree/robonix_ws/robonix-unitree-go2w/work/lidar-check/ros-deps/sensor_msgs_py bash /home/unitree/robonix_ws/robonix-unitree-go2w/native/install-ros-deps.sh
+bash native/fetch-sensor-msgs-py.sh
 ```
 
 Native Observer 随 `go2w_native` 持续运行，提供点云状态和走廊统计用于独立诊断。完整外参和走廊覆盖尚未核验。此前 15 次 Observer 检查结果保存在 `robonix-unitree-go2w/work/lidar-check/orin-stage/verification-18092.json`。

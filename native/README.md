@@ -25,7 +25,7 @@ from `packages/go2w_native_speech`. These use the laptop's microphone and
 speakers, without adding a fictitious onboard audio component. The bridge
 listens only on loopback port 60002; `native/connect_laptop.py` discovers the
 gRPC ports and tunnels them with the audio connection over SSH. See the
-[laptop voice guide](../../笔记本语音连接指南.md). Hands-free and motion remain
+[laptop voice guide](../docs/laptop-voice.md). Hands-free and motion remain
 disabled by default.
 The camera reader already caps input at 5 Hz; the observer processes each
 camera frame rather than applying another 200 ms sampling gate that would
@@ -62,7 +62,7 @@ workstation's 192.168.123.99, remove the Internet route or alter DNS/IPv6.
 
 The operator corrected the physical model to Go2-W. Read-only SDK
 MotionSwitcher CheckMode returned `ai-w`. The explicit motion profile is
-`native-go2w-manual-v1`, with `dds-source-lowstate-tick-v1` source-progress
+`native-go2w-manual-v2`, with `dds-source-lowstate-tick-v1` source-progress
 qualification, unchanged original payloads and no claim of absolute
 hardware measurement age. See the motion package for its limits and mode
 policy. The default Core registers all fifteen chassis primitives.
@@ -175,8 +175,9 @@ robonix_ws/
 Native dependencies already present on this device are `/opt/ros/foxy`,
 `/home/unitree/cyclonedds_ws/install/setup.bash`, colcon, CMake, GCC, libjpeg,
 and the system Python 3.8 with rclpy, numpy, cv2 and PyYAML. The Foxy message
-packages are built from the pinned `third_party/unitree_ros2` submodule.
-The camera SDK is built from the pinned `third_party/unitree_sdk2` submodule.
+packages are built from the vendored `third_party/unitree_ros2` snapshot.
+The camera SDK is built from the vendored `third_party/unitree_sdk2` snapshot.
+`third_party/PINS` records both tree ids.
 No existing autonomy workspace's Python messages are required at runtime.
 
 The SDK provider runs on Python 3.11 and owns Atlas registration, gRPC
@@ -195,7 +196,6 @@ ABI. The inherited strict JPEG, framing and freshness guards remain active.
 From the repository root:
 
 ```bash
-git submodule update --init --recursive
 python3 native/fetch_go2w_model.py
 bash build.sh
 bash native/validate.sh
@@ -218,7 +218,7 @@ systemctl --user start robonix-go2-native
 ```
 
 Run `connect_laptop.py` on Windows using the installed Client/Conda executable;
-see the [laptop voice guide](../../笔记本语音连接指南.md). This mode does not start
+see the [laptop voice guide](../docs/laptop-voice.md). This mode does not start
 the robot's GUI on 7860 or local device audio on 60000/60001. Core still runs
 Speech and the reverse audio bridge on 60002; laptop audio stays on the laptop.
 

@@ -1,0 +1,8 @@
+# Vendored snapshots. Each row is path, upstream URL, and the Git tree
+# recorded in this repository. These directories are ordinary trees, not
+# gitlinks. The native launch manifest does not start mapping or navigation;
+# their snapshots stay pinned so the copied sources cannot drift silently.
+third_party/unitree_sdk2	https://github.com/unitreerobotics/unitree_sdk2.git	219b1b488b34b37175ce507b2dab413d776494e1
+third_party/unitree_ros2	https://github.com/unitreerobotics/unitree_ros2.git	a81126b7b94c9867e61b496fa8309d1cb7ac0c7f
+third_party/service-map-rbnx	https://github.com/syswonder/service-map-rbnx.git	8f10dc81ba6be36c646d2f9382e1ae5b1a927de3
+third_party/service-navigation-rbnx	https://github.com/syswonder/service-navigation-rbnx.git	772d04b1d0a993a459868fc6bb68bb3641880871

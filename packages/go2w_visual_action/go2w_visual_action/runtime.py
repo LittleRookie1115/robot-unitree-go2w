@@ -3,45 +3,11 @@ import threading
 import time
 from uuid import UUID, uuid4
 
+from .policy import latch_risk, track_sign
 from .robot import publish_status
 
 
 TERMINAL = {"SUCCEEDED", "FAILED", "CANCELLED"}
-
-
-# No usable distance this round: skip the step and look again. These are not risks seen in
-# the scene, so they do not end the task; an actual lidar_blocked still does.
-# A sign or a person can go away, so they only pause the task, which resumes after a few clear
-# rounds. A model-reported obstacle and a lidar block stay latched until the task is cancelled.
-SIGN_REASON = "prohibition_or_uncertain"
-PERSON_REASON = "person_or_uncertain"
-# One reading of a sign is noisy, so the robot resumes on the average of the last few rounds.
-# Measured at 2.7 m: the "no entry" sign averages 0.50, the "welcome" sign 0.27.
-RESUME_ROUNDS = 3
-RESUME_PROBABILITY = 0.35
-RETRY_REASONS = {"lidar_unavailable", "lidar_stale", "lidar_no_return", SIGN_REASON, PERSON_REASON}
-
-
-def latch_risk(blocked_reason, decision):
-    if (blocked_reason is None and not decision["forward_allowed"]
-            and decision["reason"] not in RETRY_REASONS):
-        return decision["reason"]
-    return blocked_reason
-
-
-def track_sign(recent, decision):
-    """Latest sign scores while a sign holds the robot. None means nothing is holding it."""
-    score = decision["prohibition_probability"]
-    if recent is None:
-        if decision["reason"] == SIGN_REASON:
-            return [score]
-        return [] if decision["reason"] == PERSON_REASON else None
-    if not decision["forward_allowed"] and decision["reason"] != SIGN_REASON:
-        return []  # someone is in view, for example changing the sign
-    recent = (recent + [score])[-RESUME_ROUNDS:]
-    if len(recent) == RESUME_ROUNDS and sum(recent) / RESUME_ROUNDS < RESUME_PROBABILITY:
-        return None
-    return recent
 
 
 class Runtime:
@@ -192,7 +158,7 @@ class Runtime:
         for code in (
             "CAMERA_STALE", "CAMERA_FRAME_INVALID", "CAMERA_INVALID",
             "CAMERA_UNAVAILABLE", "INVALID_MODEL_RESPONSE", "MOTION_NOT_ENABLED",
-            "STOP_UNCONFIRMED", "TASK_CANCELLED",
+            "STOP_UNCONFIRMED", "MOTION_NOT_CONFIRMED", "TASK_CANCELLED",
         ):
             if code in message:
                 return code

@@ -8,10 +8,15 @@ The launch manifest is the repository-root `robonix_manifest.yaml`.
 `native/robonix_manifest.yaml` points at that same file.
 
 ```bash
+python3 native/fetch_go2w_model.py
 bash build.sh
 bash native/validate.sh
 bash start.sh
 ```
+
+`build.sh` also fetches the pinned audio bridge and ROS Foxy `sensor_msgs_py`.
+The Go2-W model download above has to happen first; the build stops if that
+model is missing. See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 `build.sh` and `start.sh` use the native profile. It does not start a
 container and does not change the host network. Motion stays disabled until

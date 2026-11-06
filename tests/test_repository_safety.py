@@ -8,6 +8,11 @@ import xml.etree.ElementTree as ET
 
 import yaml
 
+try:
+    from native_launch import skip_when_native_launch
+except ImportError:
+    from tests.native_launch import skip_when_native_launch
+
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -34,10 +39,12 @@ class RepositorySafetyTest(unittest.TestCase):
         deployment = yaml.safe_load(
             (ROOT / "robonix_manifest.yaml").read_text(encoding="utf-8")
         )
+        self.assertEqual(deployment["catalog"]["name"], "robonix.robot.unitree.go2w")
         chassis = next(
-            item for item in deployment["primitive"] if item["name"] == "go2_chassis"
+            item for item in deployment["primitive"] if item["name"] == "go2w_chassis_motion"
         )
-        self.assertEqual(chassis["config"]["allowed_modes"], [255])
+        self.assertIs(chassis["config"]["allow_motion"], False)
+        self.assertEqual(chassis["config"]["robot_variant"], "go2w")
         self.assertNotIn("ipc_socket", chassis["config"])
 
     def test_readonly_audits_do_not_spawn_or_reuse_ros2_daemon(self) -> None:
@@ -63,6 +70,7 @@ class RepositorySafetyTest(unittest.TestCase):
         self.assertNotIn("create_subscription", ownership_checker)
 
     def test_readonly_services_are_loopback_and_use_short_socket_defaults(self) -> None:
+        skip_when_native_launch()
         deployment = yaml.safe_load(
             (ROOT / "robonix_manifest.yaml").read_text(encoding="utf-8")
         )
@@ -172,6 +180,7 @@ class RepositorySafetyTest(unittest.TestCase):
                     )
 
     def test_start_requires_a_workspace_cached_funasr_model(self) -> None:
+        skip_when_native_launch()
         start = (ROOT / "start.sh").read_text(encoding="utf-8")
         manifest = yaml.safe_load(
             (ROOT / "robonix_manifest.yaml").read_text(encoding="utf-8")
@@ -197,6 +206,7 @@ class RepositorySafetyTest(unittest.TestCase):
         self.assertEqual(speech["config"]["funasr_model"], "${GO2_FUNASR_MODEL_PATH}")
 
     def test_control_plane_and_optional_uis_are_loopback_only(self) -> None:
+        skip_when_native_launch()
         deployment = yaml.safe_load(
             (ROOT / "robonix_manifest.yaml").read_text(encoding="utf-8")
         )
@@ -266,6 +276,7 @@ class RepositorySafetyTest(unittest.TestCase):
             self.assertNotIn("ROBONIX_ADVERTISE_HOST:-", source)
 
     def test_x86_services_use_docker_defaults_and_inherit_ros_domain(self) -> None:
+        skip_when_native_launch()
         deployment = yaml.safe_load(
             (ROOT / "robonix_manifest.yaml").read_text(encoding="utf-8")
         )
@@ -422,6 +433,7 @@ class RepositorySafetyTest(unittest.TestCase):
         self.assertNotIn('rbnx-boot/cache/mapping', compatibility)
         self.assertNotIn('rbnx-boot/cache/nav2', compatibility)
 
+        skip_when_native_launch()
         manifest = yaml.safe_load(
             (ROOT / "robonix_manifest.yaml").read_text(encoding="utf-8")
         )
@@ -499,6 +511,7 @@ class RepositorySafetyTest(unittest.TestCase):
         vending = next(row for row in data["landmarks"] if row["name"] == "自动售货机")
         self.assertFalse(vending["verified"])
 
+        skip_when_native_launch()
         deployment = yaml.safe_load(
             (ROOT / "robonix_manifest.yaml").read_text(encoding="utf-8")
         )

@@ -20,6 +20,11 @@ def load_json(relative: str):
 class NavigationConfigurationTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
+        try:
+            from native_launch import skip_when_native_launch
+        except ImportError:
+            from tests.native_launch import skip_when_native_launch
+        skip_when_native_launch()
         cls.nav = load_yaml("config/nav2_params_go2.yaml")
         cls.mapping = load_yaml("config/rtabmap_params.yaml")
         cls.dense_mapping = load_json(

@@ -4,7 +4,12 @@ root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "$root/native/env.sh"
 set +u
 source /opt/ros/foxy/setup.bash
-source /home/unitree/cyclonedds_ws/install/setup.bash
+cyclonedds_setup="${CYCLONEDDS_SETUP:-/home/unitree/cyclonedds_ws/install/setup.bash}"
+[[ -f "$cyclonedds_setup" ]] || {
+  echo "Missing CycloneDDS overlay: $cyclonedds_setup" >&2
+  exit 2
+}
+source "$cyclonedds_setup"
 if [[ -f "$GO2_NATIVE_BUILD/ros/install/setup.bash" ]]; then
   source "$GO2_NATIVE_BUILD/ros/install/setup.bash"
 fi

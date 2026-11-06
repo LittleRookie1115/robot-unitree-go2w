@@ -30,6 +30,11 @@ def load_renderer():
 class StagedNav2ManifestRendererTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
+        try:
+            from native_launch import skip_when_native_launch
+        except ImportError:
+            from tests.native_launch import skip_when_native_launch
+        skip_when_native_launch()
         cls.renderer = load_renderer()
         cls.base = yaml.safe_load(
             (ROOT / "robonix_manifest.yaml").read_text(encoding="utf-8")

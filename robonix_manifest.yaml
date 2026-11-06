@@ -37,7 +37,8 @@ primitive:
   - name: go2w_native
     path: "${ROBONIX_DEPLOY_DIR}/packages/go2w_native"
   - name: audio_client_bridge
-    path: "${ROBONIX_DEPLOY_DIR}/../primitive-audio-client-bridge-rbnx"
+    url: https://github.com/syswonder/primitive-audio-client-bridge-rbnx
+    branch: 759e3b10b4e7e7bee99dafbf78378db57ee8ef72
     config:
       transport: reverse
       listen_host: "127.0.0.1"

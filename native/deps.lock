@@ -1,0 +1,8 @@
+# Pins fetched by the native build. `branch` in the launch manifest may be a
+# commit because rbnx treats that field as a branch, tag, or commit.
+AUDIO_CLIENT_BRIDGE_URL=https://github.com/syswonder/primitive-audio-client-bridge-rbnx
+AUDIO_CLIENT_BRIDGE_COMMIT=759e3b10b4e7e7bee99dafbf78378db57ee8ef72
+SENSOR_MSGS_PY_REPOSITORY=https://github.com/ros2/common_interfaces.git
+SENSOR_MSGS_PY_COMMIT=6356bc82f3a034f5d2c61c6760df0007a6cadfb0
+GO2W_MODEL_REPOSITORY=unitreerobotics/unitree_ros
+GO2W_MODEL_REVISION=5994d4faef0a9cadd3287f8de0199a67eeb2a259

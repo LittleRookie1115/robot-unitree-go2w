@@ -33,6 +33,11 @@ def _load(name: str, filename: str):
 class RobotTrackManifestTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
+        try:
+            from native_launch import skip_when_native_launch
+        except ImportError:
+            from tests.native_launch import skip_when_native_launch
+        skip_when_native_launch()
         cls.renderer = _load(
             "robottrack_renderer",
             "render_workstation_robottrack_manifest.py",
