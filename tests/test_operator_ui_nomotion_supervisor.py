@@ -218,7 +218,7 @@ class OperatorSupervisorContractTests(unittest.TestCase):
     def test_signal_flow_stops_only_the_two_owned_children(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             workspace = Path(temporary) / "workspace"
-            deploy = workspace / "packages" / "robot-unitree-go2"
+            deploy = workspace / "packages" / "robonix-unitree-go2w"
             scripts = deploy / "scripts"
             tools_python = workspace / ".tools" / "rbnx-python" / "bin"
             tools_rbnx = workspace / ".tools" / "rbnx" / "bin"

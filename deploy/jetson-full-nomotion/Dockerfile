@@ -136,7 +136,7 @@ RUN chmod 0555 \
 LABEL org.opencontainers.image.title="Robonix Go2 Jetson full-stack no-motion blueprint" \
       org.opencontainers.image.description="ARM64 ROS Humble/Nav2/RTAB-Map blueprint; intentionally not runtime-complete" \
       org.opencontainers.image.revision="${VCS_REF}" \
-      org.opencontainers.image.source="https://github.com/syswonder/robot-unitree-go2" \
+      org.opencontainers.image.source="https://github.com/LittleRookie1115/robot-unitree-go2w" \
       io.robonix.go2.base.image-id="${BASE_IMAGE_ID}" \
       io.robonix.go2.manifest.sha256="${MANIFEST_SHA256}" \
       io.robonix.go2.profile="jetson-full-nomotion" \

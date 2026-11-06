@@ -142,7 +142,7 @@ RobotTrack armed/disarmed 状态、一次性审批文件或仓库硬门。
 固定值和文件 hash 在 `config/robottrack_assets.yaml`。离线检查：
 
 ```bash
-cd /path/to/robonix-go2/packages/robot-unitree-go2
+cd robonix-unitree-go2w
 python3 scripts/verify_robottrack_assets.py
 ```
 
@@ -252,7 +252,7 @@ Python。这个 x86 CUDA wheel 只用于 RTX 工作站，不能用于后续 Jets
 资产完整后，从工作站本地启动官方服务：
 
 ```bash
-cd /path/to/robonix-go2/packages/robot-unitree-go2
+cd robonix-unitree-go2w
 bash scripts/start_robottrack_inference_server.sh
 ```
 

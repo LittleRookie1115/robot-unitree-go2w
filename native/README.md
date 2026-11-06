@@ -40,7 +40,6 @@ not converted to healthy readings.
 The default sensor deployment keeps motion disabled. There is no Sport daemon, posture API, velocity
 publisher, chassis command subscription, arm service, mapping or navigation
 process in this profile. Build scripts never run Unitree motion examples.
-The inherited Humble deployment remains reference material.
 
 The separately registered `go2_chassis_motion` primitive provides gRPC Move,
 Stop, motion-status and explicit StandUp/StandDown interfaces with
@@ -151,8 +150,8 @@ model router: port 16667 may already belong to a different API.
 Run this bounded, authenticated models-list check on the robot:
 
 ```bash
-bash /home/unitree/robonix_ws/robot-unitree-go2-native/native/check-vlm.sh
-bash /home/unitree/robonix_ws/robot-unitree-go2-native/native/check-vlm.sh --json
+bash native/check-vlm.sh
+bash native/check-vlm.sh --json
 ```
 
 It reports configuration presence without printing keys and reads `/models`;
@@ -170,7 +169,7 @@ robonix_ws/
   .tools/rbnx-python/          Python 3.11 + Robonix SDK
   robonix/                    Robonix source registered with rbnx setup
   robonix-client/              installed Client with its separate Python
-  robot-unitree-go2-native/    this repository
+  robonix-unitree-go2w/        this repository
 ```
 
 Native dependencies already present on this device are `/opt/ros/foxy`,
@@ -241,7 +240,7 @@ user service to foreground, stop the Core unit first and then run:
 
 ```bash
 systemctl --user stop robonix-go2-native
-bash /home/unitree/robonix_ws/robot-unitree-go2-native/native/start.sh
+bash native/start.sh
 ```
 
 Stop the service with `systemctl --user stop robonix-go2-native`, or stop a

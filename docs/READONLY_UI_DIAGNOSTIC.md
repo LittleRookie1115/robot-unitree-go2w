@@ -14,7 +14,7 @@ With the separately approved `go2-readonly` NetworkManager profile already
 active on the dedicated wired interface, run:
 
 ```bash
-cd /home/zxq/workspace/robonix-go2/packages/robot-unitree-go2
+cd robonix-unitree-go2w
 GO2_NETWORK_INTERFACE=enp108s0 \
   bash scripts/start_readonly_ui_diagnostic.sh
 ```

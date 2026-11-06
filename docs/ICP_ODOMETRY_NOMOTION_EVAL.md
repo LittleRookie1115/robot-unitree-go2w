@@ -75,7 +75,7 @@ Use the current session and its exact active v3 approval. Do not point this at
 an expired or faulted session.
 
 ```bash
-cd /home/zxq/workspace/robonix-go2/packages/robot-unitree-go2
+cd robonix-unitree-go2w
 source /opt/ros/humble/setup.bash
 source rbnx-build/unitree_ros2/install/setup.bash
 

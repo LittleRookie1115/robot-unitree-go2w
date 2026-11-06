@@ -1,11 +1,8 @@
 # Contributing
 
-This standalone package is published from
-[robot-unitree-go2/packages/go2_sport_actions](https://github.com/syswonder/robot-unitree-go2/tree/main/packages/go2_sport_actions).
-Submit source changes there so Skill and chassis protocol changes remain
-reviewable together. Publish the directory to this repository with git subtree
-split after its source PR passes checks and is merged. Do not copy generated
-bindings, SDK binaries, model weights, logs or credentials.
+This package lives in this Go2-W deployment repository. Submit source changes
+here. Do not copy generated bindings, SDK binaries, model weights, logs or
+credentials.
 
 Run `PYTHONPATH=. python3 -m unittest discover -s tests -q`,
 `bash build.sh`, `bash runtime_service/build.sh`, and the parent robot's offline

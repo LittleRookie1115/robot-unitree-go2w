@@ -22,7 +22,7 @@ def start_ticks(pid: int) -> int:
 class CorrectedSessionRecoveryTest(unittest.TestCase):
     def setUp(self) -> None:
         self.temporary = tempfile.TemporaryDirectory()
-        self.deploy = Path(self.temporary.name) / "robot-unitree-go2"
+        self.deploy = Path(self.temporary.name) / "robonix-unitree-go2w"
         self.scripts = self.deploy / "scripts"
         self.run_root = self.deploy / "rbnx-build" / "run"
         self.scripts.mkdir(parents=True)

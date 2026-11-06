@@ -14,7 +14,7 @@ speech_asr_backend_class: go2_native_speech.backends:SenseVoiceASRBackend
 speech_asr_stream_backend_class: go2_native_speech.backends:SenseVoiceASRBackend
 speech_tts_backend_class: go2_native_speech.backends:VitsTTSBackend
 tts_voice: "4"
-wake_word_model_dir: /home/unitree/robonix_ws/robot-unitree-go2-native/rbnx-build/native/speech/models/kws
+wake_word_model_dir: rbnx-build/native/speech/models/kws
 ```
 
 `config.example.yaml` contains this configuration. The main deployment owns

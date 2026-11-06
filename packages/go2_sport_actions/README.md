@@ -63,19 +63,13 @@ SDK daemon、动作 ID 和这些运动计划没有变更。
 脚本不自动安装依赖。
 
 ```bash
-git clone --recurse-submodules https://github.com/syswonder/robot-unitree-go2.git
-git clone https://github.com/syswonder/skill-unitree-go2-sport-actions-rbnx.git
-export GO2_ROBOT_DIR="$(realpath robot-unitree-go2)"
-export GO2_SKILL_DIR="$(realpath skill-unitree-go2-sport-actions-rbnx)"
+export GO2_ROBOT_DIR="$(pwd)"
+export GO2_SKILL_DIR="$GO2_ROBOT_DIR/packages/go2_sport_actions"
 bash "$GO2_SKILL_DIR/scripts/build_daemon.sh"
-# 主清单的多 Driver 启动支持仍待上游 #276，直接调用包内构建脚本：
 bash "$GO2_SKILL_DIR/build.sh"
 rbnx validate "$GO2_SKILL_DIR/runtime_service"
 rbnx build "$GO2_SKILL_DIR/runtime_service"
 ```
-
-也可直接用 robot 仓库内的 `packages/go2_sport_actions`。
-独立仓库是这个目录的发布快照；请向 robot 仓库提交源码改动，再同步发布。
 指定现有 Python 环境可用 `RBNX_CODEGEN_PYTHON` 和 `RBNX_RUNTIME_PYTHON`。
 `UNITREE_SDK2_DIR` 可指定已有的固定版本 SDK2。
 
@@ -105,8 +99,7 @@ skill:
 
 将配置的 service/skill 条目加入已有 Client 部署，并保留该本体的 Soma 配置。
 `examples/offline-soma.yaml` 和 `offline.urdf` 仅为独立注册测试夹具，不是 Go2 物理模型。
-完整 Go2 Client 配置在 robot 仓库的
-[deploy/sport-actions](https://github.com/syswonder/robot-unitree-go2/tree/main/deploy/sport-actions)。
+完整动作部署示例在本仓库的 `deploy/sport-actions`。
 
 设置 `GO2_SDK_SOCKET`（父目录存在的私有绝对 socket 路径）、
 `GO2_NETWORK_INTERFACE`、`GO2_ROBOT_DIR`，以及已有 Speech/音频桥/Pilot 环境。

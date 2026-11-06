@@ -19,7 +19,7 @@ import time
 
 
 REMOTE_PYTHON = "/home/unitree/robonix_ws/.tools/rbnx-python/bin/python"
-DEFAULT_ROOT = "/home/unitree/robonix_ws/robot-unitree-go2-native"
+DEFAULT_ROOT = str(Path(__file__).resolve().parents[1])
 AUDIO_PORTS = (60000, 60001)
 
 

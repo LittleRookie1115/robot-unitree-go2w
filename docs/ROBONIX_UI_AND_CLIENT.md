@@ -17,7 +17,7 @@ waits for Atlas and the three stack UIs, then starts and verifies the official
 Client:
 
 ```bash
-cd /home/zxq/workspace/robonix-go2/packages/robot-unitree-go2
+cd robonix-unitree-go2w
 bash scripts/start_operator_ui_nomotion.sh
 ```
 
@@ -41,7 +41,7 @@ Dashboard at <http://127.0.0.1:8092/>. Atlas is a gRPC endpoint at
 2. Start the official client in a second terminal:
 
    ```bash
-   cd /home/zxq/workspace/robonix-go2/packages/robot-unitree-go2
+   cd robonix-unitree-go2w
    bash scripts/start_robonix_client_local.sh
    ```
 
@@ -79,7 +79,7 @@ Client, changes Hands-free state, submits work, or calls a robot interface. The
 live flag, duration, and new absolute output directory are all explicit:
 
 ```bash
-cd /home/zxq/workspace/robonix-go2/packages/robot-unitree-go2
+cd robonix-unitree-go2w
 /home/zxq/workspace/robonix-go2/upstream/robonix-client/.venv/bin/python scripts/observe_handsfree_cancel_readonly.py --observe-live --duration-seconds 60 --poll-interval-seconds 0.5 --output-dir "$PWD/logs/handsfree-cancel-$(date -u +%Y%m%dT%H%M%SZ)"
 ```
 

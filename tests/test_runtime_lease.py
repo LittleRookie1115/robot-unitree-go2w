@@ -167,7 +167,7 @@ done
     def test_malformed_active_ui_lease_does_not_skip_robonix_shutdown(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             workspace = Path(temporary) / "workspace"
-            deploy = workspace / "packages" / "robot-unitree-go2"
+            deploy = workspace / "packages" / "robonix-unitree-go2w"
             (deploy / "scripts").mkdir(parents=True)
             (deploy / "rbnx-build" / "run").mkdir(parents=True)
             (deploy / "rbnx-boot").mkdir()
@@ -223,7 +223,7 @@ done
         build_root.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(dir=build_root) as temporary:
             workspace = Path(temporary) / "workspace"
-            deploy = workspace / "packages" / "robot-unitree-go2"
+            deploy = workspace / "packages" / "robonix-unitree-go2w"
             (deploy / "scripts").mkdir(parents=True)
             self._prepare_workspace_config(workspace)
             dashboard = deploy / "packages" / "go2_dashboard"
@@ -289,7 +289,7 @@ done
     def test_validated_semantic_router_child_is_stopped_by_exact_lease(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             workspace = Path(temporary) / "workspace"
-            deploy = workspace / "packages" / "robot-unitree-go2"
+            deploy = workspace / "packages" / "robonix-unitree-go2w"
             scripts = deploy / "scripts"
             run_root = deploy / "rbnx-build" / "run"
             scripts.mkdir(parents=True)

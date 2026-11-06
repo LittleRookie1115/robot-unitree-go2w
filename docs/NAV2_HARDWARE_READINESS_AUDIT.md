@@ -37,7 +37,7 @@ Keep the robot stationary and motion disabled. Re-run the subscription-only
 probe:
 
 ```bash
-cd packages/robot-unitree-go2
+cd robonix-unitree-go2w
 ./scripts/probe_go2_time_readonly.sh
 ```
 

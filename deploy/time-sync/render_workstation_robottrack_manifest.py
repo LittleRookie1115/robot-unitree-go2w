@@ -47,8 +47,7 @@ ROBOTTRACK_PACKAGE_PATH = "${ROBONIX_DEPLOY_DIR}/packages/go2_robottrack"
 ROBOTTRACK_ASSET_MANIFEST = (
     "${ROBONIX_DEPLOY_DIR}/config/robottrack_assets.yaml"
 )
-# ROBONIX_DEPLOY_DIR is packages/robot-unitree-go2; the pinned upstream source
-# is intentionally kept at the outer Robonix-Go2 workspace level.
+# ROBONIX_DEPLOY_DIR is this Go2-W repository root.
 ROBOTTRACK_UPSTREAM_ROOT = (
     "${ROBONIX_DEPLOY_DIR}/../../upstream/MiniCPM-Robot"
 )

@@ -99,7 +99,7 @@ class ReadonlyUiDiagnosticProfileTest(unittest.TestCase):
 
     def test_lifecycle_uses_exclusive_lease_and_cleans_exact_child_groups(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
-            deploy = Path(temporary) / "robot-unitree-go2"
+            deploy = Path(temporary) / "robonix-unitree-go2w"
             scripts = deploy / "scripts"
             sensors = deploy / "packages" / "go2_sensors"
             dashboard = deploy / "packages" / "go2_dashboard"

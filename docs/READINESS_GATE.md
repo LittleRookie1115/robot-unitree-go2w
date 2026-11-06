@@ -8,7 +8,7 @@ boot is intentionally best-effort for non-core packages, so seeing its
 Run it in another terminal after the stack has settled:
 
 ```bash
-cd /path/to/robot-unitree-go2
+cd robonix-unitree-go2w
 bash scripts/check_stack_readiness.sh
 ```
 

@@ -75,7 +75,7 @@ RUN chmod 0444 \
 LABEL org.opencontainers.image.title="Robonix Go2 Jetson time components" \
       org.opencontainers.image.description="Separated zero-capability DDS feeder and networkless chronyd" \
       org.opencontainers.image.revision="${VCS_REF}" \
-      org.opencontainers.image.source="https://github.com/syswonder/robot-unitree-go2" \
+      org.opencontainers.image.source="https://github.com/LittleRookie1115/robot-unitree-go2w" \
       io.robonix.go2.profile="jetson-time-sync" \
       io.robonix.go2.motion="absent" \
       io.robonix.go2.clock-default="observe-only" \

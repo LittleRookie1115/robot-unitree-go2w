@@ -20,7 +20,7 @@
 
 ```bash
 ssh -F /dev/null -N -L 18092:127.0.0.1:18092 unitree@192.168.123.18
-python3 robot-unitree-go2-w/work/lidar-check/analyze_cloud.py
+python3 robonix-unitree-go2w/work/lidar-check/analyze_cloud.py
 ```
 
 电脑上的 Client 页面通过 SSH 转发访问 `http://127.0.0.1:7860/`。转发中断后，在电脑重新运行：
@@ -29,7 +29,7 @@ python3 robot-unitree-go2-w/work/lidar-check/analyze_cloud.py
 ssh -F /dev/null -o BatchMode=yes -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 -o ServerAliveCountMax=3 -fN -L 127.0.0.1:7860:127.0.0.1:7860 unitree@192.168.123.18
 ```
 
-Orin 上的当前现场操作说明为 `/home/unitree/go2w_demo/ONSITE_RUNBOOK_RGB.md`，交接文档副本为 `/home/unitree/robonix_ws/robot-unitree-go2-native/docs/GO2-W_MINI_JEV_HANDOFF_2026-10-30.md`。
+Orin 上的当前现场操作说明为 `/home/unitree/go2w_demo/ONSITE_RUNBOOK_RGB.md`，交接文档副本为 `/home/unitree/robonix_ws/robonix-unitree-go2w/docs/GO2-W_MINI_JEV_HANDOFF_2026-10-30.md`。
 
 ## Client 音频设备服务
 
@@ -107,9 +107,9 @@ Client 保持 `ROBONIX_CLIENT_REVERSE_AUDIO=0`，Orin 不启动本地音频服�
 
 本次收到的 TF 包含 `map -> base_footprint` 和 D435i 内部坐标关系，没有收到连接 `livox_frame`、`utlidar_lidar` 与机器人机体的坐标关系。当前数据支持继续使用 MID-360 原始点云开展几何核验；尚无证据允许把 `/utlidar/cloud_base` 直接作为有效机体坐标点云。
 
-本机证据目录：`robot-unitree-go2-w/work/lidar-check/captures/20261031T050353Z/`，其中 `report.json` 包含原始字段、发布者、时间戳和 TF 数值。Orin 副本位于 `/home/unitree/robonix_ws/robot-unitree-go2-native/work/lidar-check/captures/20261031T050353Z/`。这些文件位于工作目录，跨机器交接时需要同时复制证据目录。
+本机证据目录：`robonix-unitree-go2w/work/lidar-check/captures/20261031T050353Z/`，其中 `report.json` 包含原始字段、发布者、时间戳和 TF 数值。Orin 副本位于 `/home/unitree/robonix_ws/robonix-unitree-go2w/work/lidar-check/captures/20261031T050353Z/`。这些文件位于工作目录，跨机器交接时需要同时复制证据目录。
 
-采集脚本为 `robot-unitree-go2-w/work/lidar-check/capture_lidar_frames.py`。远端执行需要加载 `/opt/ros/foxy/setup.bash`、`/home/unitree/cyclonedds_ws/install/setup.bash`，并使用 `/usr/local/lib` 中的动态库。仅加载系统 ROS 环境的查询出现过启动异常；按服务器已有环境加载后，12 秒真实采样成功完成。
+采集脚本为 `robonix-unitree-go2w/work/lidar-check/capture_lidar_frames.py`。远端执行需要加载 `/opt/ros/foxy/setup.bash`、`/home/unitree/cyclonedds_ws/install/setup.bash`，并使用 `/usr/local/lib` 中的动态库。仅加载系统 ROS 环境的查询出现过启动异常；按服务器已有环境加载后，12 秒真实采样成功完成。
 
 ## 2026-10-31 地面方向与安装参数检查
 
@@ -136,33 +136,33 @@ LiDAR IMU 的 `header.frame_id` 为空，因此没有自动建立它与 `livox_f
 - `config/pl_relocation/mid360.yaml` 的同名参数为 `[1,0,0,0,0.187,0,0.0803]`。配置没有把它们声明为经过现场验证的机器人机体外参。
 - 当前导航程序 `unitree_slam_client.py` 将官方里程计的 X/Y 和 yaw 直接用于平面机体位姿，没有提供完整的 LiDAR 到机体安装变换。
 
-同步采样证据和分析结果位于 `robot-unitree-go2-w/work/lidar-check/captures/gravity-check-20261031/`，其中 `imu_report.json` 保存 IMU 数值，`report.json` 保存原始帧信息，`plane_analysis.json` 保存各帧 SHA256、全部候选平面及拟合指标。初次完整点云的独立拟合结果保存在 `captures/20261031T050353Z/plane_analysis.json`。官方配置副本位于 `robot-unitree-go2-w/work/lidar-check/calibration-config-20261031/`。
+同步采样证据和分析结果位于 `robonix-unitree-go2w/work/lidar-check/captures/gravity-check-20261031/`，其中 `imu_report.json` 保存 IMU 数值，`report.json` 保存原始帧信息，`plane_analysis.json` 保存各帧 SHA256、全部候选平面及拟合指标。初次完整点云的独立拟合结果保存在 `captures/20261031T050353Z/plane_analysis.json`。官方配置副本位于 `robonix-unitree-go2w/work/lidar-check/calibration-config-20261031/`。
 
-诊断脚本为 `work/lidar-check/capture_imu.py` 和 `work/lidar-check/analyze_planes.py`，相对于 `robot-unitree-go2-w/`。分析依赖安装在 `work/lidar-check/.venv/`，机器人运行环境没有安装新依赖。本轮完成地面候选与现有安装参数检查；完整机体坐标关系继续等待已知位置的现场目标验证。
+诊断脚本为 `work/lidar-check/capture_imu.py` 和 `work/lidar-check/analyze_planes.py`，相对于 `robonix-unitree-go2w/`。分析依赖安装在 `work/lidar-check/.venv/`，机器人运行环境没有安装新依赖。本轮完成地面候选与现有安装参数检查；完整机体坐标关系继续等待已知位置的现场目标验证。
 
 ## 前向与横向核验：30 厘米方块位置 A、B、C、D 已采集
 
 现场目标为蓝色方块，操作员报告长宽高均约 0.30 米，并要求直接采样。初始水平距离没有实测，采集备注明确记录距离未知。本轮没有依据此前提出的 1.5 米放置要求填写距离。
 
-位置 A 约在北京时间 13:35:17～13:35:20 采样，保存 61 帧完整 MID-360 点云，共 615,072 个原始点，源时间与接收时间相差 0.041～0.070 秒。证据目录为 `robot-unitree-go2-w/work/lidar-check/captures/20261031T053517Z/`，远端保留相同目录名的副本。
+位置 A 约在北京时间 13:35:17～13:35:20 采样，保存 61 帧完整 MID-360 点云，共 615,072 个原始点，源时间与接收时间相差 0.041～0.070 秒。证据目录为 `robonix-unitree-go2w/work/lidar-check/captures/20261031T053517Z/`，远端保留相同目录名的副本。
 
 本轮直接解析每帧完整 CDR，并逐帧确认点数与元数据一致。合并点云重新拟合的地面候选方程约为 `-0.23541*x + 0.00596*y + 0.97188*z + 0.56428 = 0`，使用此前 IMU 数值作为候选方向参照。按地面相对高度和空间聚类检查小物体后，尺寸筛选仍得到多个点群，当前不能确认哪个点群对应蓝色方块，也没有得到经过现场验证的方块距离。LiDAR 数据不含颜色信息。
 
-分析脚本为 `robot-unitree-go2-w/work/lidar-check/analyze_cube.py`，数值结果保存为证据目录中的 `cube_analysis.json`，包含每帧 SHA256、地面模型、聚类范围和逐帧匹配点数。分析坐标仅根据地面候选调整高度方向，尚未等同于机器人机体坐标。
+分析脚本为 `robonix-unitree-go2w/work/lidar-check/analyze_cube.py`，数值结果保存为证据目录中的 `cube_analysis.json`，包含每帧 SHA256、地面模型、聚类范围和逐帧匹配点数。分析坐标仅根据地面候选调整高度方向，尚未等同于机器人机体坐标。
 
-操作员报告沿狗头朝向、远离机器人移动方块 0.5 米后，位置 B 于北京时间约 13:42:28～13:42:31 采集，保存 60 帧、604,512 个原始点；源时间与接收时间相差约 0.046～0.061 秒。证据目录为 `robot-unitree-go2-w/work/lidar-check/captures/20261031T054228Z/`。地面候选方程为 `-0.23555*x + 0.00596*y + 0.97184*z + 0.56456 = 0`。
+操作员报告沿狗头朝向、远离机器人移动方块 0.5 米后，位置 B 于北京时间约 13:42:28～13:42:31 采集，保存 60 帧、604,512 个原始点；源时间与接收时间相差约 0.046～0.061 秒。证据目录为 `robonix-unitree-go2w/work/lidar-check/captures/20261031T054228Z/`。地面候选方程为 `-0.23555*x + 0.00596*y + 0.97184*z + 0.56456 = 0`。
 
 对 A、B 的完整点云采用 0.025 米体素和 0.06 米邻近距离进行差异检查，在 B 发现一组新增候选点，中位坐标约为 `livox_frame: [1.923,-0.066,0.077] m`，包含 140 个体素点。B 的独立聚类分析在 60 帧中的 42 帧各找到至少 5 个邻近原始点；按地面候选调整高度后的水平距离中位数约为 1.881 米。位置 A 没有提取到可对应的消失点群，因此不能仅据此确认该点群属于蓝色方块，也不能计算方块的实际移动向量。
 
-操作员报告将方块向机器人左侧移动约 0.5 米，前后位置和朝向也有少量变化。位置 C 约在北京时间 13:45:07 采样，保存 61 帧、613,152 个原始点；源时间与接收时间相差约 0.047～0.063 秒。证据目录为 `robot-unitree-go2-w/work/lidar-check/captures/20261031T054507Z/`。
+操作员报告将方块向机器人左侧移动约 0.5 米，前后位置和朝向也有少量变化。位置 C 约在北京时间 13:45:07 采样，保存 61 帧、613,152 个原始点；源时间与接收时间相差约 0.047～0.063 秒。证据目录为 `robonix-unitree-go2w/work/lidar-check/captures/20261031T054507Z/`。
 
 比较 B、C 点云，B 的候选点群消失，同时 C 出现新点群：中位坐标从 `[1.923,-0.066,0.077] m` 变为 `[1.960,0.540,0.061] m`，变化约 `[+0.037,+0.606,-0.016] m`。这一变化与现场报告的左移一致，支持将点群对应至方块，机器人左侧对应 `livox_frame` 的正 Y 方向。两组坐标是点群中位数，受到方块朝向、前后位置和可见表面变化影响，不能作为精确位移。位置 A 没有提取到对应点群，前向轴及完整机体外参仍需核验。
 
-操作员报告从位置 C 沿狗头方向前移方块约 0.5 米。位置 D 于北京时间约 13:47:00 采样，保存 61 帧、613,344 个原始点，源时间与接收时间相差约 0.045～0.080 秒；证据目录为 `robot-unitree-go2-w/work/lidar-check/captures/20261031T054700Z/`。
+操作员报告从位置 C 沿狗头方向前移方块约 0.5 米。位置 D 于北京时间约 13:47:00 采样，保存 61 帧、613,344 个原始点，源时间与接收时间相差约 0.045～0.080 秒；证据目录为 `robonix-unitree-go2w/work/lidar-check/captures/20261031T054700Z/`。
 
 比较 C、D 点云，C 的候选点群消失，D 出现新点群：中位坐标由 `[1.9595,0.5404,0.0617] m` 变为 `[2.6797,0.5100,0.2134] m`，变化约 `[+0.720,-0.030,+0.152] m`。现场移动方向与正 X 一致，结合左移检查，支持 `livox_frame` 正 X 对应前方、正 Y 对应左侧。点群中位数受可见表面和目标朝向影响，不能作为精确位移或机体平移外参；Z 坐标变化也受到已测地面倾角影响。
 
-结果保存在各次采集目录的 `cube_analysis.json` 和 `position_diff.json`；比较脚本为 `robot-unitree-go2-w/work/lidar-check/compare_cube.py`。当前已核验主要方向，完整安装外参、地面相对高度和走廊覆盖仍需确认。本轮没有调用控制接口，`motion_enabled` 保持 `false`。
+结果保存在各次采集目录的 `cube_analysis.json` 和 `position_diff.json`；比较脚本为 `robonix-unitree-go2w/work/lidar-check/compare_cube.py`。当前已核验主要方向，完整安装外参、地面相对高度和走廊覆盖仍需确认。本轮没有调用控制接口，`motion_enabled` 保持 `false`。
 
 ## 2026-10-31 走廊离线核验
 
@@ -188,7 +188,7 @@ Orin 当前导航配置中的 `base_footprint` 矩形使用 X 范围 `[-0.34,0.3
 
 使用位置 C 的地面候选平面，按距离平面不超过 0.02 米筛选地面候选点；在 B、C、D 的 182 帧中，当前走廊距离传感器 0.05～1.5 米的区域没有出现此类点。该结果适用于已采集的现场数据和筛选条件。
 
-诊断脚本为 `robot-unitree-go2-w/work/lidar-check/audit_guard.py`，逐帧记录保存在 `robot-unitree-go2-w/work/lidar-check/captures/guard-audit-20261031.json`。完整外参和走廊覆盖尚未确认，两个运动相关标记保持 `false`。
+诊断脚本为 `robonix-unitree-go2w/work/lidar-check/audit_guard.py`，逐帧记录保存在 `robonix-unitree-go2w/work/lidar-check/captures/guard-audit-20261031.json`。完整外参和走廊覆盖尚未确认，两个运动相关标记保持 `false`。
 
 ## 2026-10-31 宇树参数与现有配置
 
@@ -200,17 +200,17 @@ Orin 当前导航配置中的 `base_footprint` 矩形使用 X 范围 `[-0.34,0.3
 
 若按官网尺寸将 0.43 米视作站立宽度，并假设雷达位于机体中线上，当前走廊半宽 0.45 米相对标称半宽 0.215 米，每侧多出约 0.235 米。位置 C 的差异点群最小 Y 坐标约为 0.467 米；该回波与标称半宽的坐标差约 0.252 米。这些数值依赖居中假设，方块实体边缘和现场机体完整包络仍需用数据核验。
 
-官方设备配置副本保存在 `robot-unitree-go2-w/work/lidar-check/calibration-config-20261031/gridmap_config.yaml`。官网尺寸和设备现有配置可用于离线核验，现场机体边界仍需测量。
+官方设备配置副本保存在 `robonix-unitree-go2w/work/lidar-check/calibration-config-20261031/gridmap_config.yaml`。官网尺寸和设备现有配置可用于离线核验，现场机体边界仍需测量。
 
 ## 2026-10-31 Orin Observer 与服务接口
 
 Orin 的 `native/ros_worker.py`、`native/lidar_guard.py`、`native/config.yaml` 和 `native/ros-python.sh` 已配置 Observer 所需的点云统计与依赖路径。ROS Foxy 官方 `sensor_msgs_py` 2.0.5 安装在 `rbnx-build/native/ros-python-deps`，源码来自 `ros2/common_interfaces` 的 `foxy` 分支，提交为 `6356bc82f3a034f5d2c61c6760df0007a6cadfb0`。重新安装时，在 Orin 执行：
 
 ```bash
-SENSOR_MSGS_PY_SOURCE=/home/unitree/robonix_ws/robot-unitree-go2-native/work/lidar-check/ros-deps/sensor_msgs_py bash /home/unitree/robonix_ws/robot-unitree-go2-native/native/install-ros-deps.sh
+SENSOR_MSGS_PY_SOURCE=/home/unitree/robonix_ws/robonix-unitree-go2w/work/lidar-check/ros-deps/sensor_msgs_py bash /home/unitree/robonix_ws/robonix-unitree-go2w/native/install-ros-deps.sh
 ```
 
-Native Observer 随 `go2_native` 持续运行，提供点云状态和走廊统计用于独立诊断。完整外参和走廊覆盖尚未核验。此前 15 次 Observer 检查结果保存在 `robot-unitree-go2-w/work/lidar-check/orin-stage/verification-18092.json`。
+Native Observer 随 `go2_native` 持续运行，提供点云状态和走廊统计用于独立诊断。完整外参和走廊覆盖尚未核验。此前 15 次 Observer 检查结果保存在 `robonix-unitree-go2w/work/lidar-check/orin-stage/verification-18092.json`。
 
 `packages/go2w_visual_action` 已同步至 Orin，使用 Python 3.11 独立环境安装依赖，并通过 Robonix `rbnx build` 正式构建，生成接口文件。模型服务当前在 tmux 会话 `go2w-jev` 运行，地址为 `127.0.0.1:8765`，健康接口报告模型已加载。模型主体及 LoRA 文件在电脑和 Orin 的 SHA256 一致；`MANIFEST.json` 保存交付包摘要，`verify_manifest.py` 在电脑列出五个差异文件，在 Orin 列出四个差异文件，均为运行代码或配置。
 
@@ -232,13 +232,13 @@ Robonix、`go2w_visual_action`、Mini-JEV 与 Client 当前分别在 tmux 会话
 
 | 路径 | 内容 |
 |---|---|
-| `robot-unitree-go2-w/packages/go2w_visual_action/go2w_visual_action/robot.py` | 通过 Atlas MCP 获取 RGB 快照，调用 JEV 并判断三项概率 |
-| `robot-unitree-go2-w/packages/go2w_visual_action/go2w_visual_action/runtime.py` | `evaluate`、`run_step` 生命周期与运动门槛 |
-| `robot-unitree-go2-w/packages/go2w_visual_action/go2w_visual_action/settings.py` | 评估间隔、运动开关、速度与时长设置 |
-| `robot-unitree-go2-w/native/ros_worker.py` | 原生传感器 Observer；正 X 走廊统计及点云抽样 |
-| `robot-unitree-go2-w/native/config.yaml` | Observer 当前 LiDAR 走廊，`allow_motion: false` |
-| `robot-unitree-go2-w/native/robonix_manifest.yaml` | 本机部署清单；视觉服务周期为一秒，运动标记保持 `false` |
-| `robot-unitree-go2-w/work/lidar-check/analyze_cloud.py` | 现场只读点云统计脚本 |
+| `robonix-unitree-go2w/packages/go2w_visual_action/go2w_visual_action/robot.py` | 通过 Atlas MCP 获取 RGB 快照，调用 JEV 并判断三项概率 |
+| `robonix-unitree-go2w/packages/go2w_visual_action/go2w_visual_action/runtime.py` | `evaluate`、`run_step` 生命周期与运动门槛 |
+| `robonix-unitree-go2w/packages/go2w_visual_action/go2w_visual_action/settings.py` | 评估间隔、运动开关、速度与时长设置 |
+| `robonix-unitree-go2w/native/ros_worker.py` | 原生传感器 Observer；正 X 走廊统计及点云抽样 |
+| `robonix-unitree-go2w/native/config.yaml` | Observer 当前 LiDAR 走廊，`allow_motion: false` |
+| `robonix-unitree-go2w/native/robonix_manifest.yaml` | 本机部署清单；视觉服务周期为一秒，运动标记保持 `false` |
+| `robonix-unitree-go2w/work/lidar-check/analyze_cloud.py` | 现场只读点云统计脚本 |
 
 ## 后续处理
 

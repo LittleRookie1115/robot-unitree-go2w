@@ -218,7 +218,7 @@ RUN chmod 0555 \
 LABEL org.opencontainers.image.title="Robonix Go2 Jetson read-only runtime" \
       org.opencontainers.image.description="CPU-only passive state, sensors, camera and description profile" \
       org.opencontainers.image.revision="${VCS_REF}" \
-      org.opencontainers.image.source="https://github.com/syswonder/robot-unitree-go2" \
+      org.opencontainers.image.source="https://github.com/LittleRookie1115/robot-unitree-go2w" \
       org.opencontainers.image.base.name="docker.io/library/ros:humble-ros-base-jammy" \
       org.opencontainers.image.base.digest="${BASE_IMAGE_UPSTREAM_DIGEST}" \
       io.robonix.go2.base.image-id="${BASE_IMAGE_ID}" \
