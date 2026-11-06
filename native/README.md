@@ -14,9 +14,10 @@ enable request rather than automatic reenabling or action retries.
 
 The health view uses the full Soma paths `body/base/body/...`. Camera, lidar,
 IMU and battery availability come from the native observer's freshness checks.
-The four wheels remain in the physical model, but their individual health is
-unknown until motor telemetry is reliably mapped to each wheel. Missing wheel
-readings must not be reported as communication failures. Browser audio is not
+The four wheel components use LowState motor temperatures 12 through 15 in
+FL, FR, RL, RR order, the same order as the leg groups ahead of them. A frame
+with fewer than 16 motors stays unobserved and is not reported as a wheel
+communication failure. Temperature is not a measurement of traction. Browser audio is not
 declared as robot hardware because this deployment has no corresponding onboard audio
 provider.
 The native manifest now also includes the official `audio_client_bridge` in

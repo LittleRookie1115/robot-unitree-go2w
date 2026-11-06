@@ -36,6 +36,16 @@ def unknown_reading(name, **values):
     return reading
 
 
+# Go2-W LowState motors 0..11 are the leg joints. Motors 12..15 follow the
+# same FL, FR, RL, RR order as those legs and as the official wheel joints.
+WHEEL_COMPONENTS = (
+    "body/base/body/FL_foot",
+    "body/base/body/FR_foot",
+    "body/base/body/RL_foot",
+    "body/base/body/RR_foot",
+)
+
+
 def build_health(records, config, now_wall=None, now_mono=None):
     now_wall = time.time() if now_wall is None else now_wall
     now_mono = time.monotonic() if now_mono is None else now_mono
@@ -70,5 +80,19 @@ def build_health(records, config, now_wall=None, now_mono=None):
             component + "/stale",
             current_a=float(reason in ("source_stale", "receipt_stale")),
         ))
+    temperatures = low.get("motor_temperatures_c") or []
+    # Fewer than 16 motors means this frame cannot identify the wheels. Leave
+    # them unobserved instead of reporting a communication fault.
+    if len(temperatures) >= 16:
+        stale = (not low_fresh) and low_reason in ("source_stale", "receipt_stale")
+        for component, temp_c in zip(WHEEL_COMPONENTS, temperatures[12:16]):
+            if low_fresh:
+                readings.append(unknown_reading(component, temp_c=float(temp_c)))
+            readings.append(unknown_reading(component + "/online", current_a=float(low_fresh)))
+            readings.append(unknown_reading(component + "/stale", current_a=float(stale)))
+            if low_fresh:
+                readings.append(unknown_reading(
+                    component + "/communication_ok", current_a=1.0,
+                ))
     return {"voltage": voltage, "charging": False, "remaining_s": -1,
             "readings": readings}

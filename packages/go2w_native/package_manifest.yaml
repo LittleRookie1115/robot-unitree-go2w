@@ -4,7 +4,7 @@ package:
   version: 0.1.0
   description: Native Foxy sensor, camera and hardware-health access on the Go2 Orin NX.
   license: Apache-2.0
-build: bash ../../native/build.sh
+build: bash scripts/build.sh
 start: bash scripts/start.sh
 capabilities:
   - name: robonix/primitive/lidar/lidar3d

@@ -64,6 +64,35 @@ class FreshnessTests(unittest.TestCase):
             self.assertEqual(readings[prefix + "/online"]["current_a"],
                              float(source_stamp == 99.9))
 
+    def test_sixteen_motor_temperatures_map_onto_the_four_wheels(self):
+        cfg = dict(max_source_age_s=0.5, max_source_future_s=0.05, max_receipt_age_s=1.0)
+        temperatures = list(range(16))
+        health = build_health(
+            {"lowstate": dict(received_monotonic=9.9, voltage=29.4,
+                              battery_percent=51, motor_temperatures_c=temperatures)},
+            cfg, now_wall=100, now_mono=10,
+        )
+        readings = {row["name"]: row for row in health["readings"]}
+        for component, temp_c in (
+            ("body/base/body/FL_foot", 12),
+            ("body/base/body/FR_foot", 13),
+            ("body/base/body/RL_foot", 14),
+            ("body/base/body/RR_foot", 15),
+        ):
+            self.assertEqual(readings[component]["temp_c"], temp_c)
+            self.assertEqual(readings[component + "/online"]["current_a"], 1)
+            self.assertEqual(readings[component + "/communication_ok"]["current_a"], 1)
+
+    def test_short_motor_list_does_not_invent_wheel_faults(self):
+        cfg = dict(max_source_age_s=0.5, max_source_future_s=0.05, max_receipt_age_s=1.0)
+        health = build_health(
+            {"lowstate": dict(received_monotonic=9.9, voltage=29.4,
+                              battery_percent=51, motor_temperatures_c=[30, 31])},
+            cfg, now_wall=100, now_mono=10,
+        )
+        names = [row["name"] for row in health["readings"]]
+        self.assertFalse(any("foot" in name for name in names))
+
 
 if __name__ == "__main__":
     unittest.main()
