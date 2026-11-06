@@ -17,7 +17,10 @@ ROBOTTRACK_PACKAGE = ROOT / "packages" / "go2_robottrack"
 sys.path.insert(0, str(TIME_SYNC))
 sys.path.insert(0, str(ROBOTTRACK_PACKAGE))
 
-from go2_robottrack.core import RuntimeConfig  # noqa: E402
+try:
+    from go2_robottrack.core import RuntimeConfig  # noqa: E402
+except ModuleNotFoundError:
+    RuntimeConfig = None
 
 
 def _load(name: str, filename: str):

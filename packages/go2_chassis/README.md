@@ -32,8 +32,8 @@ staged test, watchdog, cancel, and stop checks are approved at the robot.
 
 ## Named sport actions
 
-The optional [sport-action Skill](../go2_sport_actions/README.md) uses this same
-daemon in a dedicated session. Protocol operation 7 carries an explicit named
+The separate legged sport-action package is not part of this Go2-W deployment.
+Protocol operation 7 carries an explicit named
 action ID; the original Move/StopMove wire layout is unchanged. Only the SDK
 calls needed by the eight published routines are accepted. Boot and health
 checks do not execute posture APIs. Fresh advancing SportModeState and the

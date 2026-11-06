@@ -571,8 +571,6 @@ class RepositorySafetyTest(unittest.TestCase):
         local_packages = {
             "go2_chassis": ROOT / "packages" / "go2_chassis",
             "go2_sensors": ROOT / "packages" / "go2_sensors",
-            "robot_description": ROOT / "packages" / "go2_description",
-            "semantic_navigation": ROOT / "packages" / "semantic_navigation",
         }
         declared = {
             provider_id: {

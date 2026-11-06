@@ -198,18 +198,8 @@ class RobotTrackLauncherTests(unittest.TestCase):
         )
         self.assertIn("--omit-scene", self.base)
 
-    def test_repository_offline_entrypoint_runs_robottrack_tests(self) -> None:
-        self.assertIn(
-            'packages/go2_robottrack/tests/run_offline_tests.sh',
-            self.offline_validator,
-        )
-        for module in (
-            "test_distance_control",
-            "test_distance_worker",
-            "test_follow_distance_runtime",
-        ):
-            with self.subTest(module=module):
-                self.assertIn(module, self.offline_validator)
+    def test_repository_offline_entrypoint_does_not_run_removed_robottrack(self) -> None:
+        self.assertNotIn("packages/go2_robottrack/", self.offline_validator)
 
     def test_follow_reuses_generation1_classicwalk_and_accepts_100_or_2010(self) -> None:
         self.assertIn(

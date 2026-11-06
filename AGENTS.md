@@ -104,8 +104,7 @@ precedence over convenience.
    a physical robot without the operator's explicit approval for that step.
 10. Do not store passwords, tokens, API keys, SSH credentials, subscription
     URLs, device handover PDFs, maps containing sensitive data, or `.env`.
-11. Preserve the Unitree BSD-3-Clause notice for the model in
-    `packages/go2_description/`.
+11. Preserve the Unitree BSD-3-Clause notice fetched with the Go2-W model.
 12. Hardware-dependent dimensions, frame transforms, QoS, topic names and
     modes must be measured and recorded before supervised motion acceptance.
 

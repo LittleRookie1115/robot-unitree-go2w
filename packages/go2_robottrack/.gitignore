@@ -1,5 +1,0 @@
-.build/
-rbnx-build/
-__pycache__/
-*.py[cod]
-logs/

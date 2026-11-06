@@ -14,10 +14,17 @@ ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "scripts" / "set_landmark.py"
 sys.path.insert(0, str(ROOT / "packages" / "semantic_navigation"))
 
-from semantic_navigation.core import LandmarkError, LandmarkStore  # noqa: E402
+try:
+    from semantic_navigation.core import LandmarkError, LandmarkStore  # noqa: E402
+except ModuleNotFoundError:
+    LandmarkError = LandmarkStore = None
 
 
 class SetLandmarkMultiTest(unittest.TestCase):
+    def setUp(self) -> None:
+        if LandmarkStore is None:
+            self.skipTest("semantic_navigation is not part of the Go2-W deployment")
+
     def run_script(self, output: Path, *extra: str) -> subprocess.CompletedProcess[str]:
         return subprocess.run(
             [

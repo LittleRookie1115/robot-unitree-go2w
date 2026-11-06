@@ -252,7 +252,8 @@ set +u
 source "$UNITREE_ROS2_SETUP"
 set -u
 
-bash "$DEPLOY_DIR/packages/go2_motion_state_relay/scripts/build_ros.sh"
+echo "This path expects the removed workstation packages. Use the default foxy-native build." >&2
+exit 2
 
 rbnx build -f "$MANIFEST" "$@"
 bash "$DEPLOY_DIR/scripts/verify_upstream_compatibility.sh"
