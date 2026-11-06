@@ -1,0 +1,10 @@
+[contract]
+id = "robonix/primitive/chassis/motion_status"
+version = "1"
+kind = "primitive"
+idl = "common_interfaces/std_srvs/srv/Trigger.srv"
+description = "Read current Go2 faulted, guard.ready, guard.can_arm and session_enabled. last_result is command history; never infer a current fault from it alone. Human enable is required after permission is revoked."
+llm_callable = true
+
+[mode]
+type = "rpc"

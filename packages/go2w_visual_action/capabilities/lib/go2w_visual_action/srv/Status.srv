@@ -1,0 +1,10 @@
+string run_id
+---
+string run_id
+string state
+string error_code
+string error_message
+bool motion_requested
+bool stop_requested
+bool stop_confirmed
+string result_json

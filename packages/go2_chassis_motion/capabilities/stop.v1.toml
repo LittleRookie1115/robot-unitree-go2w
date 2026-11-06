@@ -1,0 +1,10 @@
+[contract]
+id = "robonix/primitive/chassis/stop"
+version = "1"
+kind = "primitive"
+idl = "chassis/srv/Stop.srv"
+description = "Stop the current Go2-W action with acknowledged StopMove, retaining healthy operator enable."
+llm_callable = true
+
+[mode]
+type = "rpc"

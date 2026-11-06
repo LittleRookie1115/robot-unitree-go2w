@@ -1,0 +1,10 @@
+[contract]
+id = "robonix/primitive/chassis/balance_stand"
+version = "1"
+kind = "primitive"
+idl = "common_interfaces/std_srvs/srv/Trigger.srv"
+description = "Explicit Go2-W BalanceStand targeting balance mode 1 for velocity control; requires an existing human-enabled session and never implicitly follows StandUp."
+llm_callable = true
+
+[mode]
+type = "rpc"

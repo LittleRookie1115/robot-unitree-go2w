@@ -1,0 +1,10 @@
+[contract]
+id = "robonix/primitive/chassis/backward"
+version = "1"
+kind = "primitive"
+idl = "chassis/srv/ExecuteMoveCommand.srv"
+description = "Bounded backward request: positive linear_x (m/s) plus duration_sec, or positive forward_m; this RPC applies negative X. Zero velocity/duration select controller defaults."
+llm_callable = true
+
+[mode]
+type = "rpc"

@@ -1,0 +1,10 @@
+[contract]
+id = "robonix/primitive/chassis/lie_down"
+version = "1"
+kind = "primitive"
+idl = "common_interfaces/std_srvs/srv/Trigger.srv"
+description = "Alias for explicit Go2-W stand_down; dispatches only StandDown through the enabled native adapter."
+llm_callable = true
+
+[mode]
+type = "rpc"

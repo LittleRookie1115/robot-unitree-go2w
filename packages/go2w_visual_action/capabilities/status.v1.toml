@@ -1,0 +1,9 @@
+[contract]
+id = "robonix/service/go2w_visual_action/status"
+version = "1"
+kind = "service"
+idl = "go2w_visual_action/srv/Status.srv"
+description = "使用 run_step 响应返回的 run_id 查询任务状态、图像判断、前进请求和停止确认。"
+
+[mode]
+type = "rpc"

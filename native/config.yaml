@@ -1,0 +1,27 @@
+# Native Ubuntu 20.04 / ROS 2 Foxy profile. Motion is never armed.
+network_interface: eth10
+ros_domain_id: 0
+http_port: 18092
+allow_motion: false
+sources:
+  lidar: /unitree/slam_lidar/points
+  imu: /dog_imu_raw
+  odom: /dog_odom
+  sport: /lf/sportmodestate
+  lowstate: /lowstate
+  camera: /robonix/go2/camera/image_raw
+camera_enabled: true
+camera_observer_topic: /robonix/go2/camera/image_raw/compressed
+camera_frame: front_camera
+max_source_age_s: 0.5
+max_source_future_s: 0.05
+max_receipt_age_s: 1.0
+lidar_guard:
+  min_forward_m: 0.25
+  max_forward_m: 3.0
+  half_width_m: 0.45
+  min_height_m: -0.5
+  max_height_m: 0.8
+  # Floor plane in livox_frame, fitted on 10-31 with the robot standing still.
+  ground_plane: [-0.23541, 0.00596, 0.97188, 0.56428]
+  min_ground_clearance_m: 0.08

@@ -1,0 +1,10 @@
+[contract]
+id = "robonix/primitive/chassis/enable"
+version = "1"
+kind = "primitive"
+idl = "common_interfaces/std_srvs/srv/Trigger.srv"
+description = "Enable the Go2-W chassis when the user explicitly asks, for example '使能底盘' in Client. Zero-speed preparation only; no posture or nonzero motion. Never enable implicitly for movement requests or auto-recover after failure."
+llm_callable = true
+
+[mode]
+type = "rpc"

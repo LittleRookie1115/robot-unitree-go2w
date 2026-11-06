@@ -1,0 +1,10 @@
+[contract]
+id = "robonix/primitive/chassis/arm"
+version = "1"
+kind = "primitive"
+idl = "common_interfaces/std_srvs/srv/Trigger.srv"
+description = "Compatibility alias for operator-controlled Go2-W session enable."
+llm_callable = false
+
+[mode]
+type = "rpc"

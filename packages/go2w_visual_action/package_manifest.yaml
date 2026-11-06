@@ -1,0 +1,14 @@
+manifestVersion: 1
+package:
+  name: robonix.service.unitree.go2w_visual_action
+  version: 0.1.0
+  description: Go2-W 周期图像判断与有界前进服务。
+  license: Apache-2.0
+build: bash scripts/build.sh
+start: bash scripts/start.sh
+capabilities:
+  - name: robonix/service/go2w_visual_action/evaluate
+  - name: robonix/service/go2w_visual_action/run_step
+  - name: robonix/service/go2w_visual_action/status
+  - name: robonix/service/go2w_visual_action/cancel
+depends: []

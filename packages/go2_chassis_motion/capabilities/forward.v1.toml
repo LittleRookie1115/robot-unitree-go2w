@@ -1,0 +1,10 @@
+[contract]
+id = "robonix/primitive/chassis/forward"
+version = "1"
+kind = "primitive"
+idl = "chassis/srv/ExecuteMoveCommand.srv"
+description = "Bounded forward request: positive linear_x (m/s) plus duration_sec, or positive forward_m. Zero velocity/duration select controller defaults; contradictory fields are rejected."
+llm_callable = true
+
+[mode]
+type = "rpc"

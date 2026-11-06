@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>go2_native_chassis_adapter</name>
+  <version>0.1.0</version>
+  <description>Native guarded Go2 planar motion and explicit stand-up/stand-down requests.</description>
+  <maintainer email="unitree@example.invalid">Local Go2 Maintainer</maintainer>
+  <license>Apache-2.0</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>rclcpp</depend>
+  <depend>geometry_msgs</depend>
+  <depend>diagnostic_msgs</depend>
+  <depend>std_srvs</depend>
+  <depend>unitree_go</depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>

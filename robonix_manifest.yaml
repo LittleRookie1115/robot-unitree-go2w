@@ -1,0 +1,74 @@
+manifestVersion: 1
+name: go2w-foxy-native
+catalog:
+  name: robonix.robot.unitree.go2w
+  version: 0.1.0
+  description: Native Robonix deployment for the Unitree Go2-W on Ubuntu 20.04, ROS 2 Foxy, and the onboard Orin NX.
+  license: Apache-2.0
+  tags: [robot, deploy, unitree, go2w, wheeled-legged, lidar, camera, imu, speech]
+  maintainers:
+    - Origamii520 <zxq13204030517@163.com>
+
+env:
+  ROBONIX_PROVIDER_BIND_HOST: 127.0.0.1
+  ROBONIX_ADVERTISE_HOST: 127.0.0.1
+system:
+  atlas: {listen: "127.0.0.1:50051", log: info}
+  executor: {listen: "127.0.0.1:50061", log: info}
+  # VLM credentials are inherited from the user environment, never interpolated.
+  pilot: {listen: "127.0.0.1:50071", log: info}
+  soma:
+    listen: "127.0.0.1:50091"
+    provider_id: soma
+    robot_yaml: "${ROBONIX_DEPLOY_DIR}/rbnx-build/native/soma.yaml"
+    runtime_reader_command: ["bash", "${ROBONIX_DEPLOY_DIR}/native/ros-python.sh", "{script}", "{config}"]
+    log: info
+  vitals:
+    listen: "127.0.0.1:50093"
+    log: info
+    expected_modules:
+      - {module_id: vitals, provider_id: vitals, policy: required, ttl_ms: 0}
+      - module_id: executor
+        provider_id: executor
+        capability: robonix/system/executor/get_health
+        policy: required
+  liaison: {listen: "127.0.0.1:50081", log: info}
+primitive:
+  - name: go2_native
+    path: "${ROBONIX_DEPLOY_DIR}/packages/go2_native"
+  - name: audio_client_bridge
+    path: "${ROBONIX_DEPLOY_DIR}/../primitive-audio-client-bridge-rbnx"
+    config:
+      transport: reverse
+      listen_host: "127.0.0.1"
+      listen_port: 60002
+  - name: go2_chassis_motion
+    path: "${ROBONIX_DEPLOY_DIR}/packages/go2_chassis_motion"
+    config:
+      allow_motion: false
+      robot_variant: go2w
+      allowed_modes: [1, 3, 5, 6]
+      state_time_basis: dds-source-lowstate-tick-v1
+      network_interface: eth10
+      robot_address: "192.168.123.161"
+service:
+  - name: go2w_visual_action
+    path: "${ROBONIX_DEPLOY_DIR}/packages/go2w_visual_action"
+    config:
+      model_url: "${GO2W_JEV_MODEL_URL}"
+      camera_frame_id: front_camera
+      motion_enabled: true
+      evaluation_interval_s: 1.0
+      forward_speed_mps: 0.25
+      forward_duration_s: 1.0
+  - name: speech
+    path: "${ROBONIX_DEPLOY_DIR}/packages/go2_native_speech"
+    config:
+      speech_backend: custom
+      speech_asr_backend_class: "go2_native_speech.backends:SenseVoiceASRBackend"
+      speech_asr_stream_backend_class: "go2_native_speech.backends:SenseVoiceASRBackend"
+      speech_tts_backend_class: "go2_native_speech.backends:VitsTTSBackend"
+      tts_voice: "4"
+      default_speaker_provider_id: audio_client_bridge
+      wake_word_model_dir: "${ROBONIX_DEPLOY_DIR}/rbnx-build/native/speech/models/kws"
+skill: []

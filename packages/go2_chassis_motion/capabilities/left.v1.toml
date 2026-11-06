@@ -1,0 +1,10 @@
+[contract]
+id = "robonix/primitive/chassis/left"
+version = "1"
+kind = "primitive"
+idl = "chassis/srv/ExecuteMoveCommand.srv"
+description = "Bounded left request: positive linear_y (m/s) plus duration_sec. Zero velocity/duration select controller defaults. forward_m and all other axes are rejected."
+llm_callable = true
+
+[mode]
+type = "rpc"

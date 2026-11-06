@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>Go2-W 本机遥测</title>
+<style>
+body{font:16px system-ui;margin:24px;max-width:1100px;background:#f4f6f8;color:#17202b}
+header{display:flex;align-items:center;justify-content:space-between}
+.panels{display:flex;flex-wrap:wrap;gap:16px}section{background:white;padding:16px;border-radius:8px}
+img,canvas{width:480px;max-width:100%;background:#17202b}table{border-collapse:collapse;width:100%}
+td,th{text-align:left;padding:10px;border-bottom:1px solid #ddd}.good{color:#18743c}.bad{color:#a63729}
+</style>
+<header><h1>Go2-W 本机遥测</h1><span>传感器预览 · 运动状态请用 chassis status 查看</span></header>
+<p>显示机器人当前图像、雷达采样与状态。图像和点云仅在内存中处理。</p>
+<div class="panels"><section><h2>前置相机</h2><img id="camera" alt="等待有效图像"><p id="cameraState"></p></section>
+<section><h2>雷达俯视预览</h2><canvas width="480" height="360" id="cloud"></canvas><p id="cloudState"></p></section></div>
+<section><h2>数据源</h2><p id="battery"></p><table><thead><tr><th>数据</th><th>话题</th><th>状态</th><th>源时间差</th></tr></thead><tbody id="sources"></tbody></table></section>
+<script>
+const $=id=>document.getElementById(id);
+async function poll(){
+ try{
+  const s=await (await fetch('/status')).json();$('sources').replaceChildren();
+  for(const [name,v] of Object.entries(s.sources)){
+   const row=document.createElement('tr');
+   for(const text of [name,v.topic,v.freshness,v.source_age_s===undefined?'无源时间戳':v.source_age_s.toFixed(3)+' s']){
+    const td=document.createElement('td');td.textContent=text;row.append(td);
+   }
+   row.className=v.healthy?'good':'bad';$('sources').append(row);
+  }
+  const b=s.health.readings.find(r=>r.name==='body/base/body/battery');
+  $('battery').textContent=b&&b.battery_percent>=0?`电量 ${b.battery_percent}% · 电压 ${b.voltage.toFixed(2)} V`:'电池状态不可用';
+  for(const [path,id] of [['camera','camera'],['cloud','cloud']]){
+   const r=await fetch('/'+path);
+   if(!r.ok){$(id+'State').textContent='数据不可用或已过期';if(id==='camera')$('camera').removeAttribute('src');else $('cloud').getContext('2d').clearRect(0,0,480,360);continue;}
+   const p=await r.json();$(id+'State').textContent='坐标系：'+p.frame_id;
+   if(id==='camera')$('camera').src='data:image/jpeg;base64,'+p.data;
+   else{
+    const ctx=$('cloud').getContext('2d');ctx.fillStyle='#17202b';ctx.fillRect(0,0,480,360);
+    ctx.fillStyle='#50dac6';for(const [x,y] of p.points){ctx.fillRect(240-y*14,180-x*14,2,2);}
+   }
+  }
+ }catch(e){$('battery').textContent='遥测连接中断';$('camera').removeAttribute('src');}
+ setTimeout(poll,1000);
+}poll();
+</script></html>

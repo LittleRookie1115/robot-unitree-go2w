@@ -1,0 +1,15 @@
+manifestVersion: 1
+package:
+  name: robonix.primitive.unitree.go2.native
+  version: 0.1.0
+  description: Native Foxy sensor, camera and hardware-health access on the Go2 Orin NX.
+  license: Apache-2.0
+build: bash ../../native/build.sh
+start: bash scripts/start.sh
+capabilities:
+  - name: robonix/primitive/lidar/lidar3d
+  - name: robonix/primitive/imu/imu
+  - name: robonix/primitive/camera/rgb
+  - name: robonix/primitive/camera/snapshot
+  - name: robonix/primitive/health/state
+  - name: robonix/primitive/health/stream

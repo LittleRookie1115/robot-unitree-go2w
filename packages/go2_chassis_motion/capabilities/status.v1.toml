@@ -1,0 +1,10 @@
+[contract]
+id = "robonix/primitive/chassis/status"
+version = "1"
+kind = "primitive"
+idl = "common_interfaces/std_srvs/srv/Trigger.srv"
+description = "Read current faulted, guard.ready, guard.can_arm and session_enabled without motion. last_result is command history, not the current fault state. A disarmed healthy backend requires human enable."
+llm_callable = true
+
+[mode]
+type = "rpc"

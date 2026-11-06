@@ -1,0 +1,9 @@
+[contract]
+id = "robonix/service/go2w_visual_action/evaluate"
+version = "1"
+kind = "service"
+idl = "go2w_visual_action/srv/Evaluate.srv"
+description = "只读检查一次 Go2-W 彩色图像，返回 Mini-JEV 的 person、prohibition 和 obstacle 概率；本接口不执行运动。request_id 可传空字符串，服务会自动生成请求标识。"
+
+[mode]
+type = "rpc"

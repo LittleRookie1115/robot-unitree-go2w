@@ -1,0 +1,9 @@
+[contract]
+id = "robonix/service/go2w_visual_action/cancel"
+version = "1"
+kind = "service"
+idl = "go2w_visual_action/srv/Cancel.srv"
+description = "取消 run_step 响应中 run_id 对应的任务；运动请求期间通过现有底盘服务请求停止，并记录停止确认。"
+
+[mode]
+type = "rpc"

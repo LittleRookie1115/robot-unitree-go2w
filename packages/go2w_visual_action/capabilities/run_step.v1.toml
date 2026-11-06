@@ -1,0 +1,9 @@
+[contract]
+id = "robonix/service/go2w_visual_action/run_step"
+version = "1"
+kind = "service"
+idl = "go2w_visual_action/srv/RunStep.srv"
+description = "持续读取 Go2-W 新图像并依据 Mini-JEV 概率判断，直到调用 cancel；运动配置和底盘会话满足条件时，每轮最多执行一次有界前进。一旦检测到风险，本次任务保持停止。request_id 可传空字符串。响应返回 run_id；使用该值查询 status 或调用 cancel。"
+
+[mode]
+type = "rpc"

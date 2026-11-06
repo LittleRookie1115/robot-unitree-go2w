@@ -1,0 +1,10 @@
+[contract]
+id = "robonix/primitive/chassis/stand_up"
+version = "1"
+kind = "primitive"
+idl = "common_interfaces/std_srvs/srv/Trigger.srv"
+description = "Request Go2-W StandUp targeting stand-lock mode 6 through an existing human-enabled session. Velocity requires a separate explicit balance_stand to mode 1; never called automatically."
+llm_callable = true
+
+[mode]
+type = "rpc"

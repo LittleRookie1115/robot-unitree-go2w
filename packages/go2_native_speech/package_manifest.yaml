@@ -1,0 +1,18 @@
+manifestVersion: 1
+package:
+  name: robonix.service.unitree.go2.native_speech
+  version: 0.1.0
+  description: Official Speech service with native ARM64 CPU SenseVoice ASR and Chinese VITS TTS.
+  license: Apache-2.0
+build: bash scripts/build.sh
+start: bash scripts/start.sh
+capabilities:
+  - name: robonix/service/speech/driver
+  - name: robonix/service/speech/asr
+  - name: robonix/service/speech/asr_stream
+  - name: robonix/service/speech/wake_word
+  - name: robonix/service/speech/tts
+  - name: robonix/service/speech/tts_stream
+  - name: robonix/service/speech/dialog
+  - name: robonix/service/speech/list_speakers
+  - name: robonix/service/speech/speak

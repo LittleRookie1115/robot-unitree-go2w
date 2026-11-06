@@ -1,0 +1,10 @@
+string request_id
+---
+string decision_id
+bool forward_allowed
+float64 person_probability
+float64 prohibition_probability
+float64 obstacle_probability
+float64 camera_age_s
+string reason
+string result_json

@@ -1,0 +1,10 @@
+[contract]
+id = "robonix/primitive/chassis/disable"
+version = "1"
+kind = "primitive"
+idl = "common_interfaces/std_srvs/srv/Trigger.srv"
+description = "Revoke Go2-W motion authorization and request acknowledged stop/disarm; unlike stop, permission is not retained."
+llm_callable = true
+
+[mode]
+type = "rpc"

@@ -1,0 +1,10 @@
+[contract]
+id = "robonix/primitive/chassis/stand_down"
+version = "1"
+kind = "primitive"
+idl = "common_interfaces/std_srvs/srv/Trigger.srv"
+description = "Explicitly request Unitree StandDown (crouch) through the armed native adapter."
+llm_callable = true
+
+[mode]
+type = "rpc"
