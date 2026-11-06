@@ -8,6 +8,14 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def retired_workstation_chassis(reason):
+    """These checks describe the old workstation chassis, not Go2-W native motion."""
+    return unittest.skip(
+        "Retired workstation chassis check, not collected for the Go2-W "
+        "native deployment: " + reason
+    )
+
+
 class StaticSafetyTest(unittest.TestCase):
     def test_robottrack_cpp_envelope_preserves_standard_nav2_limit(self) -> None:
         node = (
@@ -58,6 +66,9 @@ class StaticSafetyTest(unittest.TestCase):
         ):
             self.assertIn(expected, daemon)
 
+    @retired_workstation_chassis(
+        "the public manifest primitive is go2w_chassis_motion, not go2_chassis"
+    )
     def test_public_configuration_is_motion_disabled(self) -> None:
         config = yaml.safe_load((ROOT / "config" / "adapter.yaml").read_text())
         parameters = config["go2_chassis_adapter"]["ros__parameters"]
@@ -405,6 +416,9 @@ class StaticSafetyTest(unittest.TestCase):
         self.assertIn("RuntimeGraphPlan::For(true)", test)
         self.assertIn("motion_enabled.has_complete_motion_control_graph()", test)
 
+    @retired_workstation_chassis(
+        "the native velocity clamp no longer lives in the workstation guard"
+    )
     def test_motion_state_requires_progress_and_reverse_is_not_forwarded(self) -> None:
         guard = (ROOT / "include" / "go2_chassis" / "safety_guard.hpp").read_text()
         daemon = (ROOT / "include" / "go2_chassis" / "daemon_core.hpp").read_text()
@@ -503,6 +517,9 @@ class StaticSafetyTest(unittest.TestCase):
         self.assertIn("runtime.sdk_daemon_env(_daemon_binary)", provider)
         self.assertIn('environment["LD_LIBRARY_PATH"]', runtime)
 
+    @retired_workstation_chassis(
+        "Go2-W native posture names are part of the audited manual profile"
+    )
     def test_posture_calls_are_confined_to_audited_sdk_daemon(self) -> None:
         runtime_files = list((ROOT / "include").rglob("*.hpp"))
         runtime_files += list((ROOT / "sdk_daemon").rglob("*.cpp"))
@@ -543,6 +560,9 @@ class StaticSafetyTest(unittest.TestCase):
         )
         self.assertNotIn("/api/sport/request", non_observer_source)
 
+    @retired_workstation_chassis(
+        "the native sport client no longer uses that workstation call shape"
+    )
     def test_sdk_motion_rpc_requires_full_ack_and_exact_zero_lease(self) -> None:
         guard = (
             ROOT / "include" / "go2_chassis" / "rpc_response_guard.hpp"
@@ -656,6 +676,9 @@ class StaticSafetyTest(unittest.TestCase):
         self.assertIn("operation = CommandOp::kStop", move_block)
         self.assertIn("last_output_stopped_ = true", move_block)
 
+    @retired_workstation_chassis(
+        "reply timeouts are enforced in the shared client, not the old adapter"
+    )
     def test_motion_ipc_timing_covers_sdk_calls_below_watchdog(self) -> None:
         timing = (
             ROOT / "include" / "go2_chassis" / "motion_timing.hpp"

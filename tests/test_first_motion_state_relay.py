@@ -713,6 +713,13 @@ class FirstMotionStateRelayPolicyTest(unittest.TestCase):
             self.assertIsNone(payload["observed_publisher_gid"])
             self.assertEqual(payload["publisher_count"], 0)
 
+    @unittest.skipUnless(
+        (
+            ROOT
+            / "packages/go2_motion_state_relay/src/workstation_motion_state_relay.cpp"
+        ).is_file(),
+        "the C++ motion-state relay package was removed from the Go2-W deployment",
+    )
     def test_relay_has_no_command_or_unitree_api_surface(self) -> None:
         supervisor = MODULE_PATH.read_text(encoding="utf-8")
         worker = (

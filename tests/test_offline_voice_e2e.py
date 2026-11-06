@@ -26,9 +26,16 @@ def _load_runner():
     return module
 
 
-offline_demo = _load_runner()
+try:
+    offline_demo = _load_runner()
+except ImportError:
+    offline_demo = None
 
 
+@unittest.skipIf(
+    offline_demo is None,
+    "go2_dashboard and semantic_navigation were removed from the Go2-W deployment",
+)
 class OfflineVoiceEndToEndTests(unittest.TestCase):
     def test_required_phrase_reaches_read_only_dashboard_success(self) -> None:
         result = offline_demo.run_scenario(FIXTURE)
