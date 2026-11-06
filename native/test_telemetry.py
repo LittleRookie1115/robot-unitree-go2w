@@ -42,7 +42,8 @@ class FreshnessTests(unittest.TestCase):
         cfg = dict(max_source_age_s=0.5, max_source_future_s=0.05, max_receipt_age_s=1.0)
         health = build_health(records, cfg, now_wall=100, now_mono=10)
         self.assertEqual(health["voltage"], -1)
-        self.assertEqual(health["readings"][0]["battery_percent"], -1)
+        battery = next(row for row in health["readings"] if row["name"] == "body/battery")
+        self.assertEqual(battery["battery_percent"], -1)
 
     def test_health_preserves_measured_battery(self):
         cfg = dict(max_source_age_s=0.5, max_source_future_s=0.05, max_receipt_age_s=1.0)
@@ -51,7 +52,8 @@ class FreshnessTests(unittest.TestCase):
             cfg, now_wall=100, now_mono=10,
         )
         self.assertEqual(health["voltage"], 31.9)
-        self.assertEqual(health["readings"][0]["battery_percent"], 94)
+        battery = next(row for row in health["readings"] if row["name"] == "body/battery")
+        self.assertEqual(battery["battery_percent"], 94)
 
     def test_expired_camera_reports_stale_while_retaining_original_timestamp_checks(self):
         cfg = dict(max_source_age_s=0.5, max_source_future_s=0.05, max_receipt_age_s=1.0)
@@ -59,7 +61,7 @@ class FreshnessTests(unittest.TestCase):
             records = {"camera": dict(self.record, source_stamp=source_stamp)}
             health = build_health(records, cfg, now_wall=100, now_mono=10)
             readings = {r["name"]: r for r in health["readings"]}
-            prefix = "body/base/body/front_camera"
+            prefix = "body/front_camera"
             self.assertEqual(readings[prefix + "/stale"]["current_a"], stale)
             self.assertEqual(readings[prefix + "/online"]["current_a"],
                              float(source_stamp == 99.9))
@@ -74,14 +76,15 @@ class FreshnessTests(unittest.TestCase):
         )
         readings = {row["name"]: row for row in health["readings"]}
         for component, temp_c in (
-            ("body/base/body/FL_foot", 12),
-            ("body/base/body/FR_foot", 13),
-            ("body/base/body/RL_foot", 14),
-            ("body/base/body/RR_foot", 15),
+            ("body/FL_foot", 12),
+            ("body/FR_foot", 13),
+            ("body/RL_foot", 14),
+            ("body/RR_foot", 15),
         ):
             self.assertEqual(readings[component]["temp_c"], temp_c)
             self.assertEqual(readings[component + "/online"]["current_a"], 1)
             self.assertEqual(readings[component + "/communication_ok"]["current_a"], 1)
+        self.assertNotIn("body/base/body/FR_foot/online", readings)
 
     def test_short_motor_list_does_not_invent_wheel_faults(self):
         cfg = dict(max_source_age_s=0.5, max_source_future_s=0.05, max_receipt_age_s=1.0)

@@ -12,7 +12,9 @@ Default boot stays disabled, and enable sends no implicit posture or nonzero
 motion. “前进” alone is not enable consent; faults require a fresh explicit
 enable request rather than automatic reenabling or action retries.
 
-The health view uses the full Soma paths `body/base/body/...`. Camera, lidar,
+Health ids are `body/<part>` for the lidar, IMU, camera, battery and four
+wheels. The released Client collapses a component named `body` to the robot
+root, so those parts are not nested under another body. Camera, lidar,
 IMU and battery availability come from the native observer's freshness checks.
 The four wheel components use LowState motor temperatures 12 through 15 in
 FL, FR, RL, RR order, the same order as the leg groups ahead of them. A frame

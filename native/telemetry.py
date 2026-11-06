@@ -36,13 +36,22 @@ def unknown_reading(name, **values):
     return reading
 
 
+def publish_component(readings, component, healthy, stale, **fields):
+    if fields:
+        readings.append(unknown_reading(component, **fields))
+    readings.append(unknown_reading(component + "/online", current_a=float(bool(healthy))))
+    readings.append(unknown_reading(component + "/stale", current_a=float(bool(stale))))
+
+
 # Go2-W LowState motors 0..11 are the leg joints. Motors 12..15 follow the
 # same FL, FR, RL, RR order as those legs and as the official wheel joints.
+# These match both Soma and the released Client. A part literally named "body"
+# must not sit between them; that Client would collapse it back to the root.
 WHEEL_COMPONENTS = (
-    "body/base/body/FL_foot",
-    "body/base/body/FR_foot",
-    "body/base/body/RL_foot",
-    "body/base/body/RR_foot",
+    "body/FL_foot",
+    "body/FR_foot",
+    "body/RL_foot",
+    "body/RR_foot",
 )
 
 
@@ -55,41 +64,34 @@ def build_health(records, config, now_wall=None, now_mono=None):
                              config["max_source_future_s"], config["max_receipt_age_s"],
                              require_stamp=False)
     voltage = low.get("voltage", -1.0) if low_fresh else -1.0
-    readings.append(unknown_reading(
-        "body/base/body/battery",
+    low_stale = low_reason in ("source_stale", "receipt_stale")
+    publish_component(readings, "body/base", low_fresh, low_stale)
+    publish_component(
+        readings, "body/battery", low_fresh, low_stale,
         voltage=voltage,
         battery_percent=low.get("battery_percent", -1.0) if low_fresh else -1.0,
-    ))
-    readings.append(unknown_reading("body/base/body/battery/online",
-                                   current_a=float(low_fresh)))
-    readings.append(unknown_reading(
-        "body/base/body/battery/stale",
-        current_a=float(low_reason in ("source_stale", "receipt_stale")),
-    ))
+    )
     for key, component in [
-        ("lidar", "body/base/body/onboard_lidar"),
-        ("imu", "body/base/body/onboard_imu"),
-        ("camera", "body/base/body/front_camera"),
+        ("lidar", "body/onboard_lidar"),
+        ("imu", "body/onboard_imu"),
+        ("camera", "body/front_camera"),
     ]:
         healthy, reason = freshness(
             records.get(key, {}), now_wall, now_mono, config["max_source_age_s"],
             config["max_source_future_s"], config["max_receipt_age_s"],
         )
-        readings.append(unknown_reading(component + "/online", current_a=float(healthy)))
-        readings.append(unknown_reading(
-            component + "/stale",
-            current_a=float(reason in ("source_stale", "receipt_stale")),
-        ))
+        publish_component(
+            readings, component, healthy,
+            reason in ("source_stale", "receipt_stale"),
+        )
     temperatures = low.get("motor_temperatures_c") or []
     # Fewer than 16 motors means this frame cannot identify the wheels. Leave
     # them unobserved instead of reporting a communication fault.
     if len(temperatures) >= 16:
         stale = (not low_fresh) and low_reason in ("source_stale", "receipt_stale")
         for component, temp_c in zip(WHEEL_COMPONENTS, temperatures[12:16]):
-            if low_fresh:
-                readings.append(unknown_reading(component, temp_c=float(temp_c)))
-            readings.append(unknown_reading(component + "/online", current_a=float(low_fresh)))
-            readings.append(unknown_reading(component + "/stale", current_a=float(stale)))
+            fields = {"temp_c": float(temp_c)} if low_fresh else {}
+            publish_component(readings, component, low_fresh, stale, **fields)
             if low_fresh:
                 readings.append(unknown_reading(
                     component + "/communication_ok", current_a=1.0,

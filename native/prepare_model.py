@@ -78,6 +78,11 @@ for joint in wheel_joints:
     parts.append({"id": joint.find("child").get("link"), "type": "wheel",
                   "urdf_link": joint.find("child").get("link"),
                   "urdf_joint": joint.get("name"), "exports": []})
+# The released Client treats a component whose local id is exactly "body" as
+# the robot root. Sensors nested under that part are shown as body/FR_foot,
+# while Soma keeps body/base/body/FR_foot and the health signals never match.
+base["components"] = []
+body["robot"]["components"] = [base, *parts]
 body["description"] = {
     "summary": "Go2-W native Ubuntu 20.04 / Foxy telemetry with an official static wheel model.",
     "can_do": ["Read current camera, MID-360 cloud, IMU and battery state.",

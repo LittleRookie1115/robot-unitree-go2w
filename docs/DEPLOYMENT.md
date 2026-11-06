@@ -7,6 +7,7 @@ git clone git@github.com:LittleRookie1115/robot-unitree-go2w.git
 cd robot-unitree-go2w
 python3 native/fetch_go2w_model.py
 bash build.sh
+bash native/build-motion.sh
 bash start.sh
 ```
 
@@ -15,6 +16,11 @@ checked by `scripts/verify_submodule_pins.sh`. Do not expect `git submodule
 update` to fetch them. The native build clones the audio bridge commit named
 in `native/deps.lock` into `rbnx-boot/cache/` and installs pinned
 `sensor_msgs_py` for `/usr/bin/python3`.
+
+Run `native/build-motion.sh` after the base build to prepare the SDK daemon
+and guarded ROS adapter used by chassis `enable`. These artifacts belong to
+this checkout and are not included in a Git clone or recreated by codegen.
+The motion build does not start either backend or grant motion permission.
 
 This host also needs `/opt/ros/foxy` and a CycloneDDS overlay. The default
 overlay is `/home/unitree/cyclonedds_ws/install/setup.bash`; set
