@@ -3,7 +3,7 @@
   <name>go2_chassis_adapter</name>
   <version>0.1.0</version>
   <description>Fail-closed ROS 2 adapter for Unitree Go2 chassis state and velocity IPC.</description>
-  <maintainer email="zxq13204030517@163.com">Origamii520</maintainer>
+  <maintainer email="157590849+LittleRookie1115@users.noreply.github.com">Zhenyu Zhang</maintainer>
   <license>Apache-2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>

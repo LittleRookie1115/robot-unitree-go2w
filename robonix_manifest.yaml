@@ -7,7 +7,7 @@ catalog:
   license: Apache-2.0
   tags: [robot, deploy, unitree, go2w, wheeled-legged, lidar, camera, imu, speech]
   maintainers:
-    - Origamii520 <zxq13204030517@163.com>
+    - Zhenyu Zhang <157590849+LittleRookie1115@users.noreply.github.com>
 
 env:
   ROBONIX_PROVIDER_BIND_HOST: 127.0.0.1
